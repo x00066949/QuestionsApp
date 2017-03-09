@@ -12,6 +12,6 @@ public class Question {
     public Question (string question) {
         this.question=question;
     }
+//finder
 
-    
 }

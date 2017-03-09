@@ -8,8 +8,23 @@
         <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/main.css")">
         <link rel="shortcut icon" type="image/png" href="@routes.Assets.versioned("images/favicon.png")">
         <script src="@routes.Assets.versioned("javascripts/hello.js")" type="text/javascript"></script>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://www.w3schools.com/lib/w3.css">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins">
+    
     </head>
     <body>
+        <nav class="w3-sidenav w3-red w3-collapse w3-top w3-large w3-padding" style="z-index:3;width:300px;font-weight:bold;" id="mySidenav"><br>
+            <a href="javascript:void(0)" onclick="w3_close()" class="w3-padding-xlarge w3-hide-large w3-display-topleft w3-hover-white" style="width:100%;font-size:22px">Close Menu</a>
+            <div class="w3-container">
+                <h3 class="w3-padding-64"><b>Openet<br></b></h3>
+            </div>
+            <a href="#" onclick="w3_close()" class="w3-padding w3-hover-white">Home</a> 
+            <a href="#jDev" onclick="w3_close()" class="w3-padding w3-hover-white">Java Developer</a> 
+            <a href="#cDev" onclick="w3_close()" class="w3-padding w3-hover-white">C Developer</a> 
+            <a href="#qa" onclick="w3_close()" class="w3-padding w3-hover-white">QA Personel</a> 
+
+    </nav>
         @content
     </body>
 </html>
