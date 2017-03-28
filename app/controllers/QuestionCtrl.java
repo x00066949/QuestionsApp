@@ -8,6 +8,8 @@ import play.mvc.Http.Context;
 
 import views.html.*;
 
+import com.avaje.ebean.Ebean;
+
 // Import required classes
 import java.util.*;
 
@@ -86,6 +88,8 @@ public class QuestionCtrl extends Controller{
 				categories.add(cat);
 				
 			}
+			
+			Ebean.save((List)categories);
 		
 		}catch (Exception f){
 			f.printStackTrace();

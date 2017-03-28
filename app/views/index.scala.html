@@ -5,11 +5,12 @@
     
 
 	<p>@for(c <- categories){
-		 @c.name
+		 @if(c.name == "C++"){ 
+			@c.name
 		 
-		  c.questions
-			
-		 
+		  @c.questions
+		}			
+		 <br>
 	
 	}
 	
