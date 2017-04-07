@@ -1,3 +1,6 @@
-03-27 12:37:46 jdbc[4]: exception
+03-31 13:21:11 jdbc[4]: exception
 org.h2.jdbc.JdbcSQLException: Table "PLAY_EVOLUTIONS" not found; SQL statement:
 select id, hash, apply_script, revert_script, state, last_problem from play_evolutions where state like 'applying_%' [42102-187]
+03-31 15:22:12 jdbc[171]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "SELECT * FROM CATEGORY QUESTION PLAY_EVOLUTIONS[*]"; SQL statement:
+SELECT * FROM CATEGORY QUESTION PLAY_EVOLUTIONS [42000-187]

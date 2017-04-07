@@ -50,15 +50,16 @@ public class QuestionCtrl extends Controller{
 			}
 			
 
-			return redirect("/");
+			return redirect("/all");
 		  //return (listQuestions.render(categories, questions));
     }
 	
-	public Result getCategories(){
+	public Result getCategories(String catIn){
 		
-		Set<Category> categories = new HashSet<Category>();
 		List<Question> questions = new ArrayList<Question>();
+		Set<Category> categories = new HashSet<Category>();
 
+		
 		try{
 			Multimap<String, String> mappedQuestions = ArrayListMultimap.create();
 			BufferedReader br = new BufferedReader(new FileReader("listQuestions.txt"));
@@ -78,24 +79,39 @@ public class QuestionCtrl extends Controller{
 			for (String key : mappedQuestions.keys()){
 
 				Category cat = new Category();
-				if (mappedQuestions.get(key) instanceof List){
-				 cat.questions	= (List)(mappedQuestions.get(key));
-				}else{
+				
+				//if (mappedQuestions.get(key) instanceof List){
+				 //cat.questions	= (List)(mappedQuestions.get(key));
+				//}else{
 					cat.questions = new ArrayList(mappedQuestions.get(key));
-				}
+				//}
+				
+				
 				String upperCat = key.toUpperCase();
 				cat.name = upperCat;
 				categories.add(cat);
 				
+				
 			}
 			
-			Ebean.save((List)categories);
+			for (Category temp : categories) {
+				if ((temp.name).equals(catIn)){
+					questions = temp.questions;
+					break;
+				}else {
+					for (String value : mappedQuestions.values()){
+					questions = (List)(mappedQuestions.get(value));
+					}
+				}
+			}
+			
+//			Ebean.save(categories);
 		
 		}catch (Exception f){
 			f.printStackTrace();
 		}
 		
-		return ok(index.render(categories));
+		return ok(index.render(categories, questions, catIn));
 
 	}
 }

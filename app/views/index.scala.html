@@ -1,18 +1,20 @@
-@(categories: Set[models.Category])
+@(categories: Set[models.Category], questions: List[models.Question], current: String)
 
 @main("Home", categories) {
 
     
-
+<p>hi</p> 
 	<p>@for(c <- categories){
-		 @if(c.name == "C++"){ 
-			@c.name
-		 
-		  @c.questions
-		}			
+	    @if(c.name == current){
+		    @c.questions
+		}else {
+		    @c.name @c.questions
+		}  
+		
+					
 		 <br>
 	
 	}
-	
+
 	</p>
 }

@@ -3,8 +3,8 @@
 # ~~~~
 
 # Home page
-GET     /                           controllers.QuestionCtrl.getCategories()
-#GET     /:cat                  		controllers.QuestionCtrl.getCategories(cat: Long)
+#GET     /                           controllers.QuestionCtrl.getCategories()
+GET     /:cat                  		controllers.QuestionCtrl.getCategories(cat: String)
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)

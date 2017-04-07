@@ -24,7 +24,7 @@ public class Category extends Model {
     public String name;
 
 	// Category contains many questions
-	@OneToMany
+	@OneToMany(mappedBy = "category")
 	public List<Question> questions;
 
     // Default constructor

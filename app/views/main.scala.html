@@ -41,14 +41,14 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="/">Questions App</a>
+                <a class="navbar-brand" href="@routes.QuestionCtrl.getCategories("all")">Questions App</a>
             </div>
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
 					@for(c <- categories){
 					<li>
-                        <a href="#">@c.name</a>
+                        <a href="@routes.QuestionCtrl.getCategories(c.name)">@c.name</a>
                     </li>
 	
 	                }           
