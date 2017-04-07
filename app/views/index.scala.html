@@ -1,20 +1,46 @@
-@(categories: Set[models.Category], questions: List[models.Question], current: String)
+@(categories: Set[models.Category], current: String)
 
 @main("Home", categories) {
 
-    
-<p>hi</p> 
-	<p>@for(c <- categories){
-	    @if(c.name == current){
-		    @c.questions
-		}else {
-		    @c.name @c.questions
-		}  
-		
+	<div class="row">
+			
+			@for(c <- categories){
+				@if(c.name == current){
+					<div class="col-md-4">	
 					
-		 <br>
-	
-	}
+						<h3>@c.name</h3>
+						
+					</div>
+					<div class="col-md-8">
+						@for(q <- c.questions){
+							@q.question <br>
+						}
+					</div>
+				
+				} 
 
-	</p>
+		
+			}
+			
+			@if(current == "all") {
+				@for(c <- categories){
+
+					<div class="col-md-4">	
+					
+						<h3>@c.name</h3>
+						
+					</div>
+					<div class="col-md-8">
+						@for(q <- c.questions){
+							@q.question <br>
+						}
+					</div>
+				} 
+			}
+			
+
+				
+		
+	</div>
+
 }

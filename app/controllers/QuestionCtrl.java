@@ -56,7 +56,7 @@ public class QuestionCtrl extends Controller{
 	
 	public Result getCategories(String catIn){
 		
-		List<Question> questions = new ArrayList<Question>();
+		
 		Set<Category> categories = new HashSet<Category>();
 
 		
@@ -77,24 +77,39 @@ public class QuestionCtrl extends Controller{
 				
 			}
 			for (String key : mappedQuestions.keys()){
-
+				List<String> questionList = new ArrayList<String>();
+				List<Question> questions = new ArrayList<Question>();
+				
+				
+				questionList = (List) (mappedQuestions.get(key));
 				Category cat = new Category();
+				cat.name = key.toUpperCase();
 				
-				//if (mappedQuestions.get(key) instanceof List){
-				 //cat.questions	= (List)(mappedQuestions.get(key));
-				//}else{
-					cat.questions = new ArrayList(mappedQuestions.get(key));
-				//}
-				
-				
-				String upperCat = key.toUpperCase();
-				cat.name = upperCat;
+				for (String question : questionList){
+						
+						Question que = new Question();
+						que.question = question;
+						
+						que.category = cat;
+						
+						questions.add(que);
+						
+				}
+				cat.questions = questions;
 				categories.add(cat);
 				
 				
 			}
 			
-			for (Category temp : categories) {
+			/* for (String value : mappedQuestions.values()){
+				Question que = new Question();
+				que.question = (List) (mappedQuestions.get(key));
+				que.category = key.toUpperCase();
+				
+			} */
+
+			
+/* 			for (Category temp : categories) {
 				if ((temp.name).equals(catIn)){
 					questions = temp.questions;
 					break;
@@ -103,7 +118,7 @@ public class QuestionCtrl extends Controller{
 					questions = (List)(mappedQuestions.get(value));
 					}
 				}
-			}
+			} */
 			
 //			Ebean.save(categories);
 		
@@ -111,7 +126,7 @@ public class QuestionCtrl extends Controller{
 			f.printStackTrace();
 		}
 		
-		return ok(index.render(categories, questions, catIn));
+		return ok(index.render(categories, catIn));
 
 	}
 }
