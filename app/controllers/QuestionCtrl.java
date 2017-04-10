@@ -28,13 +28,13 @@ import models.*;
 public class QuestionCtrl extends Controller{
 
 		// Show a list of all questions
-    public Result listQuestions(Long cat) {
+    public Result listQuestions(String cat) {
 			// Get list of categories
 			List<Category> categories = Category.find.where().orderBy("name asc").findList();
 			// Instansiate questions, an Arraylist of questions			
 			List<Question> questions = new ArrayList<Question>();
 		
-			if (cat == 0) {
+			if (cat.equalsIgnoreCase("all")) {
 				// Get the list of ALL questions
 				questions = Question.findAll();
 			}
@@ -42,7 +42,7 @@ public class QuestionCtrl extends Controller{
 				// Get questions for the selected category
 				// Each category object contains a list of questions
 				for (int i = 0; i < categories.size(); i++) {
-					if (categories.get(i).id == cat) {
+					if (categories.get(i).name == cat) {
 						questions = categories.get(i).questions;
 						break;
 					}
@@ -93,11 +93,19 @@ public class QuestionCtrl extends Controller{
 						que.category = cat;
 						
 						questions.add(que);
+					
+					int numRows = Question.find.where()
+						.like("category",cat.name)
+						.like("question",question)
+						.findRowCount();
 						
+					if (numRows == 0){
+						Ebean.save(que);
+					}
 				}
+				
 				cat.questions = questions;
 				categories.add(cat);
-				
 				
 			}
 			
@@ -120,7 +128,10 @@ public class QuestionCtrl extends Controller{
 				}
 			} */
 			
-//			Ebean.save(categories);
+
+			
+			Ebean.save(categories);
+
 		
 		}catch (Exception f){
 			f.printStackTrace();

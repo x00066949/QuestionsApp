@@ -18,9 +18,6 @@ public class Category extends Model {
 
 
     @Id
-    public Long id;
-
-    @Constraints.Required
     public String name;
 
 	// Category contains many questions
@@ -31,23 +28,23 @@ public class Category extends Model {
     public  Category() {
     }
 
-    public  Category(Long id, String name, List<Question> questions) {
-			this.id = id;
+    public  Category( String name, List<Question> questions) {
+	
 			this.name = name;
 			this.questions = questions;
     }
 
-		//Generic query helper for category entity with id Long
-    public static Finder<Long,Category> find = new Finder<Long,Category>(Long.class, Category.class);
+		//Generic query helper for category entity with name
+    public static Finder<String,Category> find = new Finder<String,Category>(String.class, Category.class);
 
-		// Generate options for an HTML select control
+/* 		// Generate options for an HTML select control
     public static Map<String,String> options() {
         LinkedHashMap<String,String> options = new LinkedHashMap<String,String>();
         for(Category c: Category.find.orderBy("name").findList()) {
-            options.put(c.id.toString(), c.name);
+            options.put(c.name);
         }
         return options;
-    }
+    } */
 
 		//Find all categories in the database
 		public static List<Category> findAll() {
