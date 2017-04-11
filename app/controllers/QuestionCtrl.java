@@ -27,6 +27,7 @@ import models.*;
 
 public class QuestionCtrl extends Controller{
 
+
 		// Show a list of all questions
     public Result listQuestions(String cat) {
 			// Get list of categories
@@ -93,15 +94,25 @@ public class QuestionCtrl extends Controller{
 						que.category = cat;
 						
 						questions.add(que);
-					
-					int numRows = Question.find.where()
+						
+					int categoryRows = Category.find.where()
+						.like("name",cat.name)
+						.findRowCount();
+						
+					if (categoryRows == 0){
+						Ebean.save(cat);
+					}
+					int questionRows = Question.find.where()
 						.like("category",cat.name)
 						.like("question",question)
 						.findRowCount();
 						
-					if (numRows == 0){
+					if (questionRows == 0){
 						Ebean.save(que);
 					}
+					
+				
+					
 				}
 				
 				cat.questions = questions;
@@ -109,28 +120,6 @@ public class QuestionCtrl extends Controller{
 				
 			}
 			
-			/* for (String value : mappedQuestions.values()){
-				Question que = new Question();
-				que.question = (List) (mappedQuestions.get(key));
-				que.category = key.toUpperCase();
-				
-			} */
-
-			
-/* 			for (Category temp : categories) {
-				if ((temp.name).equals(catIn)){
-					questions = temp.questions;
-					break;
-				}else {
-					for (String value : mappedQuestions.values()){
-					questions = (List)(mappedQuestions.get(value));
-					}
-				}
-			} */
-			
-
-			
-			Ebean.save(categories);
 
 		
 		}catch (Exception f){

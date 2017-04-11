@@ -37,19 +37,32 @@ public class Category extends Model {
 		//Generic query helper for category entity with name
     public static Finder<String,Category> find = new Finder<String,Category>(String.class, Category.class);
 
-/* 		// Generate options for an HTML select control
-    public static Map<String,String> options() {
-        LinkedHashMap<String,String> options = new LinkedHashMap<String,String>();
+		// Generate options for an HTML select control
+    public static List options() {
+        List options = new ArrayList<String>();
         for(Category c: Category.find.orderBy("name").findList()) {
-            options.put(c.name);
+            options.add(c.name);
         }
         return options;
-    } */
+    } 
+	
 
 		//Find all categories in the database
-		public static List<Category> findAll() {
-			return Category.find.all();
+	public static Set<Category> findAllCategories() {
+		Set<Category> categories = new HashSet<Category>();
+		for (Category c : Category.find.all()){
+			categories.add(c);
 		}
+
+		return categories;
+		}
+		
+/* 	public static Category getCategory(String name) {
+        if (id == null)
+                return null;
+        else
+            return find.byId(name);
+    } */
 	
 }
 

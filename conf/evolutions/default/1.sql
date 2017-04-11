@@ -3,6 +3,13 @@
 
 # --- !Ups
 
+create table candidate (
+  id                        bigint not null,
+  name                      varchar(255),
+  rate                      integer,
+  constraint pk_candidate primary key (id))
+;
+
 create table category (
   name                      varchar(255) not null,
   constraint pk_category primary key (name))
@@ -14,6 +21,8 @@ create table question (
   question                  varchar(255),
   constraint pk_question primary key (id))
 ;
+
+create sequence candidate_seq;
 
 create sequence category_seq;
 
@@ -28,11 +37,15 @@ create index ix_question_category_1 on question (category_name);
 
 SET REFERENTIAL_INTEGRITY FALSE;
 
+drop table if exists candidate;
+
 drop table if exists category;
 
 drop table if exists question;
 
 SET REFERENTIAL_INTEGRITY TRUE;
+
+drop sequence if exists candidate_seq;
 
 drop sequence if exists category_seq;
 
