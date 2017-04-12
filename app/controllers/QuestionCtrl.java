@@ -102,8 +102,9 @@ public class QuestionCtrl extends Controller{
 					if (categoryRows == 0){
 						Ebean.save(cat);
 					}
-					int questionRows = Question.find.where()
-						.like("category",cat.name)
+					int questionRows = Question.find
+						.where()
+						.like("category.name",cat.name)
 						.like("question",question)
 						.findRowCount();
 						

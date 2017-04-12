@@ -4,11 +4,34 @@
 
 @main("New Candidate", categories) {
 
+hi
 	<div class="row">
 
-
+		<h3>Add a new Candidate</h3>
+	
+	<!-- Use the views.html.helpers package to create the form -->
+	@form(action = routes.CandidateCtrl.addCandidateSubmit(), 'class -> "form-horizontal", 'role->"form") {
+		
+		<!-- Build the form, adding an input for each field -->
+		
+		@inputText(addCandidateForm("name"), '_label -> "Name",'class -> "form-control")
+    @select(
+        addCandidateForm("role.name"), 
+        options(Category.options), 
+        '_label -> "Role", '_default -> "-- Choose a role --",
+        '_showConstraints -> false, 'class -> "form-control"
+    )
+		
+	<!-- Add a submit button -->
+  <div class="actions">
+      <input type="submit" value="Add Candidate" class="btn btn-primary">
+			<a href="/all" 
+				<button class="btn btn-warning">Cancel</button>
+			</a>
+  </div>
 				
 		
 	</div>
 
-}
+	}
+} <!-- End of page content -->

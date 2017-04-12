@@ -6,6 +6,10 @@
 #GET     /                           controllers.QuestionCtrl.getCategories()
 GET     /:cat                  		controllers.QuestionCtrl.getCategories(cat: String)
 
+#Add a new customer
+GET		/newCandidate							controllers.CandidateCtrl.addCandidate()
+POST	/addCandidateSubmit						controllers.CandidateCtrl.addCandidateSubmit()
+
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)

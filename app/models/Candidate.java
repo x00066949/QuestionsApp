@@ -19,15 +19,15 @@ public class Candidate extends Model {
 	@Constraints.Required
 	public String name;
 	
-	public Category department;
+	public Category role;
 	
 	public int rate;
 	
 	
-	public  Candidate(Long id, String name, Category department, int rate){
+	public  Candidate(Long id, String name, Category role, int rate){
         this.id = id;
         this.name = name;
-        this.department = department;
+        this.role = role;
         this.rate = rate;
     }
 	

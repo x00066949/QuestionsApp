@@ -46,7 +46,7 @@
             <ul class="nav navbar-nav">
                 <li class="active"><a href="#">Home</a></li>
                 <li><a href="#about">About</a></li>
-                <li><a href="#contact">Contact</a></li>
+                <li><a href="@routes.CandidateCtrl.addCandidate()">Start Interview</a></li>
             </ul>
         </div>
         <!-- /.nav-collapse -->
@@ -57,15 +57,23 @@
 
 <div class="container-fluid">
 
-	<br>
-	<div class="row jumbotron">
-		<a href="#" class="visible-xs" data-toggle="offcanvas"><i class="fa fa-lg fa-reorder"></i></a>
-		<h1>Questions App</h1>
-		
-	</div>
+
+	
     <div class="row row-offcanvas row-offcanvas-left">
+		<br>
+		<div class="row jumbotron">
+			<a href="#" class="visible-xs" data-toggle="offcanvas"><i class="fa fa-lg fa-reorder"></i></a>
+			<h1>Questions App</h1>
+		
+		</div>
         <div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar" role="navigation">
-            <div class="sidebar-nav">
+            <div class="sidebar-nav collapse navbar-collapse">
+			
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+				   <span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
                 <ul class="nav">
 
                     <li class="active"><a href="@routes.QuestionCtrl.getCategories("all")">ALL QUESTIONS</a></li>
@@ -112,22 +120,18 @@
         </footer>
 
     </div>
+</div>
     <!-- /.container -->
 
-	<script>
-		$(document).ready(function() {
-			$('[data-toggle=offcanvas]').click(function() {
-				$('.row-offcanvas').toggleClass('active');
-			});
-		});
-	</script>
+
+	<script type="text/javascript" src="@routes.Assets.versioned("javascripts/hello.js")" ></script>
 
     <!-- jQuery -->
-    <script src="@routes.Assets.versioned("javascripts/jquery.js")"></script>
+    <script type="text/javascript" src="@routes.Assets.versioned("javascripts/jquery.js")"></script>
 	
 	
     <!-- Bootstrap Core JavaScript -->
-    <script src="@routes.Assets.versioned("javascripts/bootstrap.min.js")"></script>
+    <script type="text/javascript" src="@routes.Assets.versioned("javascripts/bootstrap.min.js")"></script>
 
 </body>
 

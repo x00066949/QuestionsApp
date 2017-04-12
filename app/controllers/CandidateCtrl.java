@@ -20,10 +20,8 @@ public class CandidateCtrl extends Controller {
 
 	public Result addCandidate(){
 		Form<Candidate> addCandidateForm = Form.form(Candidate.class);
-		Set<Category> categories = new HashSet<Category>();
-		
-		categories = Category.findAllCategories();
-		return ok(newCandidate.render(addCandidateForm, categories /* , User.getLoggedIn(session().get("email")) */));
+
+		return ok(newCandidate.render(addCandidateForm, Category.findAllCategories() /* , User.getLoggedIn(session().get("email")) */));
 	}
 	
 	

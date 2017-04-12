@@ -11,13 +11,14 @@ create table candidate (
 ;
 
 create table category (
-  name                      varchar(255) not null,
-  constraint pk_category primary key (name))
+  id                        bigint not null,
+  name                      varchar(255),
+  constraint pk_category primary key (id))
 ;
 
 create table question (
   id                        bigint not null,
-  category_name             varchar(255),
+  category_id               bigint,
   question                  varchar(255),
   constraint pk_question primary key (id))
 ;
@@ -28,8 +29,8 @@ create sequence category_seq;
 
 create sequence question_seq;
 
-alter table question add constraint fk_question_category_1 foreign key (category_name) references category (name) on delete restrict on update restrict;
-create index ix_question_category_1 on question (category_name);
+alter table question add constraint fk_question_category_1 foreign key (category_id) references category (id) on delete restrict on update restrict;
+create index ix_question_category_1 on question (category_id);
 
 
 
