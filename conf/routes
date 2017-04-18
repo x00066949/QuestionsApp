@@ -3,11 +3,11 @@
 # ~~~~
 
 # Home page
-#GET     /                           controllers.QuestionCtrl.getCategories()
-GET     /:cat                  		controllers.QuestionCtrl.getCategories(cat: String)
+GET     /                           controllers.Application.index
+GET     /listQuestions/:cat                  		controllers.QuestionCtrl.getCategories(cat: String)
 
-#Add a new customer
-GET		/newCandidate							controllers.CandidateCtrl.addCandidate()
+#Add a new candidate
+GET		/newCandidate							controllers.CandidateCtrl.addCandidate
 POST	/addCandidateSubmit						controllers.CandidateCtrl.addCandidateSubmit()
 
 # Map static resources from the /public folder to the /assets URL path

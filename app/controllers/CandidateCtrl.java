@@ -15,7 +15,7 @@ import models.*;
 //import controllers.security.*;
 
 //@Security.Authenticated(Secured.class)
-public class CandidateCtrl extends Controller {
+public class CandidateCtrl extends Controller{
 
 
 	public Result addCandidate(){

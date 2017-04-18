@@ -22,6 +22,7 @@ public class Question extends Model {
     public Long id;
 
 	//What category the question applies to
+	@Constraints.Required
     @ManyToOne
     public Category category;
 

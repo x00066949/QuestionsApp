@@ -5,11 +5,15 @@ import play.mvc.*;
 
 import views.html.*;
 
+import java.util.*;
+
+import models.*;
+
 public class Application extends Controller {
 
-  //  public Result index() {
-  //      return ok(index.render("New Application"));
-  //  }
+    public Result index() {
+        return ok(index.render(Category.findAllCategories()));
+    }
 	
 	
 

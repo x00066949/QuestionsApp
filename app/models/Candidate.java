@@ -7,10 +7,9 @@ import play.data.format.*;
 import play.data.validation.*;
 
 import com.avaje.ebean.*;
+
+
 @Entity
- /**
- * Question class to hold a question object
- */
 public class Candidate extends Model {
 
 	@Id

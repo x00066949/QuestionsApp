@@ -1,46 +1,6 @@
-@(categories: Set[models.Category], current: String)
+@(categories: Set[models.Category])
 
 @main("Home", categories) {
 
-	<div class="row">
-			
-			@for(c <- categories){
-				@if(c.name == current){
-					<div class="col-md-4">	
-					
-						<h3>@c.name</h3>
-						
-					</div>
-					<div class="col-md-8">
-						@for(q <- c.questions){
-							@q.question <br>
-						}
-					</div>
-				
-				} 
-
-		
-			}
-			
-			@if(current == "all") {
-				@for(c <- categories){
-
-					<div class="col-md-4">	
-					
-						<h3>@c.name</h3>
-						
-					</div>
-					<div class="col-md-8">
-						@for(q <- c.questions){
-							@q.question <br>
-						}
-					</div>
-				} 
-			}
-			
-
-				
-		
-	</div>
 
 }

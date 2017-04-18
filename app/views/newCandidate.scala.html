@@ -2,15 +2,14 @@
 
 @import helper._
 
-@main("New Candidate", categories) {
+@main("New Candidate", categories){
 
-hi
-	<div class="row">
+
 
 		<h3>Add a new Candidate</h3>
 	
 	<!-- Use the views.html.helpers package to create the form -->
-	@form(action = routes.CandidateCtrl.addCandidateSubmit(), 'class -> "form-horizontal", 'role->"form") {
+	@helper.form(action = routes.CandidateCtrl.addCandidateSubmit(), 'class -> "form-horizontal", 'role->"form") {
 		
 		<!-- Build the form, adding an input for each field -->
 		
@@ -31,7 +30,7 @@ hi
   </div>
 				
 		
-	</div>
+
 
 	}
 } <!-- End of page content -->

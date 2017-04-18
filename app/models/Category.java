@@ -24,6 +24,7 @@ public class Category extends Model {
     public String name;
 
 	// Category contains many questions
+	
 	@OneToMany(mappedBy = "category")
 	public List<Question> questions;
 

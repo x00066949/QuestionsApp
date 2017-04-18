@@ -44,9 +44,9 @@
         </div>
         <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
-                <li class="active"><a href="#">Home</a></li>
+                <li><a href="/">Home</a></li>
                 <li><a href="#about">About</a></li>
-                <li><a href="@routes.CandidateCtrl.addCandidate()">Start Interview</a></li>
+                <li><a href="/newCandidate">Start Interview</a></li>
             </ul>
         </div>
         <!-- /.nav-collapse -->
@@ -77,6 +77,7 @@
                 <ul class="nav">
 
                     <li class="active"><a href="@routes.QuestionCtrl.getCategories("all")">ALL QUESTIONS</a></li>
+					<li class="nav-divider"></li>
 					@for(c <- categories){
 
 						<li><a href="@routes.QuestionCtrl.getCategories(c.name)">@c.name</a></li>

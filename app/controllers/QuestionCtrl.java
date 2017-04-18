@@ -95,6 +95,8 @@ public class QuestionCtrl extends Controller{
 						
 						questions.add(que);
 						
+						
+						
 					int categoryRows = Category.find.where()
 						.like("name",cat.name)
 						.findRowCount();
@@ -102,11 +104,15 @@ public class QuestionCtrl extends Controller{
 					if (categoryRows == 0){
 						Ebean.save(cat);
 					}
+					
+					
 					int questionRows = Question.find
 						.where()
 						.like("category.name",cat.name)
 						.like("question",question)
 						.findRowCount();
+						
+						
 						
 					if (questionRows == 0){
 						Ebean.save(que);
@@ -117,6 +123,10 @@ public class QuestionCtrl extends Controller{
 				}
 				
 				cat.questions = questions;
+				
+				
+				
+				
 				categories.add(cat);
 				
 			}
@@ -127,7 +137,7 @@ public class QuestionCtrl extends Controller{
 			f.printStackTrace();
 		}
 		
-		return ok(index.render(categories, catIn));
+		return ok(listQuestions.render(categories, catIn));
 
 	}
 }
