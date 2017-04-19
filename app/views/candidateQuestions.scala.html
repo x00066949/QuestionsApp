@@ -1,0 +1,27 @@
+@(questions: List[models.Question], categories: Set[models.Category])
+
+@import helper._
+
+@main("Candidate Questions", categories) {
+
+	<div class="row">
+
+		@for(q <- questions){
+			@q.question <br>
+			
+			<div id="ratingRadio">
+				<input type="radio" name="@q.id" value="1" onclick="add('sum',this.value)" />1
+				<input type="radio" name="@q.id" value="2" onclick="add('sum',this.value)" />2
+				<input type="radio" name="@q.id" value="3" onclick="add('sum',this.value)" />3
+				<input type="radio" name="@q.id" value="4" onclick="add('sum',this.value)" />4
+				<input type="radio" name="@q.id" value="5" onclick="add('sum',this.value)" />5
+
+			</div>
+			
+			<input type="hidden" name="total@q.id" id="total@q.id" value="" maxlength="5" size="5" class="textbox">
+		}
+
+		
+	</div>
+
+}

@@ -30,10 +30,18 @@ public class CandidateCtrl extends Controller{
 			if (newCandidateForm.hasErrors()){
 				return badRequest(newCandidate.render(newCandidateForm, Category.findAllCategories()/* , User.getLoggedIn(session().get("email")) */));
 			}
-			
 		newCandidateForm.get().save();
+		Candidate can = newCandidateForm.get();
 		flash("success", "Candidate " + newCandidateForm.get() + " has been created");
-		return redirect("/all");
+		Candidate candidate = Candidate.find
+						.fetch("role","name")
+						.where()
+						.like("name",can.name)
+						.eq("id",can.id)
+						.findUnique();
+						
+		//String role = role1.getRoleName();
+		return redirect(routes.QuestionCtrl.getRandomQuestions(candidate.role.id));
 	}
 
 	//@With(CheckManager.class)

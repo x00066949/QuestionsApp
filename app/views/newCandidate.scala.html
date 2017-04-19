@@ -15,7 +15,7 @@
 		
 		@inputText(addCandidateForm("name"), '_label -> "Name",'class -> "form-control")
     @select(
-        addCandidateForm("role.name"), 
+        addCandidateForm("role.id"), 
         options(Category.options), 
         '_label -> "Role", '_default -> "-- Choose a role --",
         '_showConstraints -> false, 'class -> "form-control"
@@ -24,7 +24,7 @@
 	<!-- Add a submit button -->
   <div class="actions">
       <input type="submit" value="Add Candidate" class="btn btn-primary">
-			<a href="/all" 
+			<a href="/" 
 				<button class="btn btn-warning">Cancel</button>
 			</a>
   </div>

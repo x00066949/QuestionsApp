@@ -27,6 +27,9 @@ public class Category extends Model {
 	
 	@OneToMany(mappedBy = "category")
 	public List<Question> questions;
+	
+	@OneToMany(mappedBy = "role")
+	public List<Candidate> candidates;
 
     // Default constructor
     public  Category() {
@@ -39,7 +42,7 @@ public class Category extends Model {
     }
 
 		//Generic query helper for category entity with name
-    public static Finder<String,Category> find = new Finder<String,Category>(String.class, Category.class);
+    public static Finder<Long,Category> find = new Finder<Long,Category>(Long.class, Category.class);
 
 		// Generate options for an HTML select control
     public static Map<String,String> options() {

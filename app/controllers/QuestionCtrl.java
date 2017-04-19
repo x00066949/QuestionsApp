@@ -140,4 +140,26 @@ public class QuestionCtrl extends Controller{
 		return ok(listQuestions.render(categories, catIn));
 
 	}
+	
+	//method to get 5 random questions from a specified category
+	public Result getRandomQuestions(Long id){
+		Category category = Category.find.byId(id);
+		if (category != null){
+		List<Question> qList = category.questions;
+		
+		Collections.shuffle(qList);
+		
+		List<Question> randomQuestions = new ArrayList<Question>();
+		
+		for (int i = 0; i <= 4; i++){
+			randomQuestions.add(qList.get(i));
+		}
+		
+		return ok(candidateQuestions.render(randomQuestions, Category.findAllCategories()));
+		}
+		else{
+			flash("Error category does not exist");
+            return badRequest(index.render(Category.findAllCategories()));
+		}
+	}
 }

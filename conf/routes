@@ -3,13 +3,19 @@
 # ~~~~
 
 # Home page
-GET     /                           controllers.Application.index
+GET     /                           				controllers.Application.index
+GET     /listQuestions/								controllers.QuestionCtrl.getCategories(cat: String = "all")
 GET     /listQuestions/:cat                  		controllers.QuestionCtrl.getCategories(cat: String)
 
 #Add a new candidate
-GET		/newCandidate							controllers.CandidateCtrl.addCandidate
-POST	/addCandidateSubmit						controllers.CandidateCtrl.addCandidateSubmit()
+GET		/newCandidate								controllers.CandidateCtrl.addCandidate
+POST	/addCandidateSubmit							controllers.CandidateCtrl.addCandidateSubmit()
+
+#Get random questions for a candidate
+
+GET		/:cat/questions								controllers.QuestionCtrl.getRandomQuestions(cat: Long )
+
 
 # Map static resources from the /public folder to the /assets URL path
-GET     /assets/*file               controllers.Assets.at(path="/public", file)
-GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
+GET     /assets/*file               				controllers.Assets.at(path="/public", file)
+GET     /assets/*file               				controllers.Assets.versioned(path="/public", file: Asset)

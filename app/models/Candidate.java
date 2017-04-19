@@ -18,6 +18,9 @@ public class Candidate extends Model {
 	@Constraints.Required
 	public String name;
 	
+
+	@Constraints.Required
+	@ManyToOne
 	public Category role;
 	
 	public int rate;
@@ -29,6 +32,11 @@ public class Candidate extends Model {
         this.role = role;
         this.rate = rate;
     }
+	
+	public String getRoleName(){
+		return role.name;
+		
+	}
 	
 	public static Finder<Long,Candidate> find = new Finder<Long,Candidate>(Long.class, Candidate.class);
 
