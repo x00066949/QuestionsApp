@@ -4,13 +4,15 @@ $(document).ready(function() {
   });
 });
 
-var idx = document.getElementByName('')
-var totalsA = new Array();
-totalsA['sec1'] = 0;
- 
-function add(sec,val) {
-     totalsA[sec] += new Number(val);
-    alert(totalsA[sec]);
+function calcscore(){
+    var score = 0;
+    $(".calc:checked").each(function(){
+        score+=parseInt($(this).val(),10);
+    });
+    $("input[type=radio]").val(score)
 }
-
-document.getElementById('total'+idx).value = total;
+$(document).ready(function(){
+    $(".calc").change(function(){
+        calcscore()
+    });
+});

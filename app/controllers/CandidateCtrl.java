@@ -30,6 +30,7 @@ public class CandidateCtrl extends Controller{
 			if (newCandidateForm.hasErrors()){
 				return badRequest(newCandidate.render(newCandidateForm, Category.findAllCategories()/* , User.getLoggedIn(session().get("email")) */));
 			}
+
 		newCandidateForm.get().save();
 		Candidate can = newCandidateForm.get();
 		flash("success", "Candidate " + newCandidateForm.get() + " has been created");
@@ -41,7 +42,7 @@ public class CandidateCtrl extends Controller{
 						.findUnique();
 						
 		//String role = role1.getRoleName();
-		return redirect(routes.QuestionCtrl.getRandomQuestions(candidate.role.id));
+		return redirect(routes.InterviewCtrl.getRandomQuestions(candidate.id));
 	}
 
 	//@With(CheckManager.class)
@@ -68,7 +69,10 @@ public class CandidateCtrl extends Controller{
 		flash("success", "Candidate " + editCandidateForm.get() + " has been updated");
 	return redirect("/listCandidates");
 	}
+	
+	
 
+	
 
 	public Result listCandidate() {
 		

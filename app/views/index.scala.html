@@ -1,6 +1,10 @@
-@(categories: Set[models.Category])
+@(categories: Set[models.Category], message: String)
 
 @main("Home", categories) {
+
+	@if(message != null){
+		@message
+	}
 
 
 }

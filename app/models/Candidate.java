@@ -19,12 +19,16 @@ public class Candidate extends Model {
 	public String name;
 	
 
-	@Constraints.Required
 	@ManyToOne
 	public Category role;
 	
 	public int rate;
+
+	public Interview interview;
 	
+	public Candidate(){
+		
+	}
 	
 	public  Candidate(Long id, String name, Category role, int rate){
         this.id = id;
@@ -33,17 +37,15 @@ public class Candidate extends Model {
         this.rate = rate;
     }
 	
-	public String getRoleName(){
+	/* public String getRoleName(){
 		return role.name;
 		
-	}
+	} */
 	
 	public static Finder<Long,Candidate> find = new Finder<Long,Candidate>(Long.class, Candidate.class);
 
-
-
-		//Find all Candidates in the database
-		public static List<Candidate> findAll() {
-			return Candidate.find.all();
-		}
+	//Find all Candidates in the database
+	public static List<Candidate> findAll() {
+		return Candidate.find.all();
+	}
 }

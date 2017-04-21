@@ -50,6 +50,7 @@ public class Category extends Model {
         for(Category c: Category.find.orderBy("name").findList()) {
             options.put(c.id.toString(), c.name);
         }
+		options.put("all", "ALL QUESTIONS");
         return options;
     }
 	
@@ -62,7 +63,7 @@ public class Category extends Model {
 		}
 
 		return categories;
-		}
+	}
 		
 /* 	public static Category getCategory(String name) {
         if (id == null)

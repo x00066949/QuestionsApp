@@ -1,27 +1,51 @@
-@(questions: List[models.Question], categories: Set[models.Category])
+@(InterviewForm: Form[models.Interview],interview: models.Interview, categories: Set[models.Category])
 
 @import helper._
 
 @main("Candidate Questions", categories) {
 
 	<div class="row">
+		@if(interview != null){
+			<div class="col-md-4">
 
-		@for(q <- questions){
-			@q.question <br>
-			
-			<div id="ratingRadio">
-				<input type="radio" name="@q.id" value="1" onclick="add('sum',this.value)" />1
-				<input type="radio" name="@q.id" value="2" onclick="add('sum',this.value)" />2
-				<input type="radio" name="@q.id" value="3" onclick="add('sum',this.value)" />3
-				<input type="radio" name="@q.id" value="4" onclick="add('sum',this.value)" />4
-				<input type="radio" name="@q.id" value="5" onclick="add('sum',this.value)" />5
-
+				<h3>Candidate : @interview.candidate.name </h3>
+				<h3>Role : @interview.candidate.role.name</h3>
+				
+				total
+				<input type="text" name="sum" >
 			</div>
-			
-			<input type="hidden" name="total@q.id" id="total@q.id" value="" maxlength="5" size="5" class="textbox">
-		}
+			<div class="col-md-8">
+@helper.form(action = routes.InterviewCtrl.interviewSubmit(), 'class -> "form-horizontal", 'role->"form") {
+					
+				@for(q <- interview.questions){
+					@q.question <br>
+
+						
+						
+						<div id="ratingRadio">
+							<input type="radio" id="@q.id" class="form-control" name="rates" value="1" />1
+							<input type="radio" id="@q.id" class="form-control" name="rates" value="2" />2
+							<input type="radio" id="@q.id" class="form-control" name="rates" value="3" />3
+							<input type="radio" id="@q.id" class="form-control" name="rates" value="4" />4
+							<input type="radio" id="@q.id" class="form-control" name="rates" value="5" />5
+
+						</div>
+						
+						<div class="actions">
+						  <input type="submit" value="Submit answer" class="btn btn-primary">
+							<a href="/" 
+								<button class="btn btn-warning">Cancel</button>
+							</a>
+						</div>
+					}
+
+				}
+			</div>
 
 		
+		}
+		
+
 	</div>
 
 }

@@ -12,7 +12,7 @@ import models.*;
 public class Application extends Controller {
 
     public Result index() {
-        return ok(index.render(Category.findAllCategories()));
+        return ok(index.render(Category.findAllCategories(), "Home Page"));
     }
 	
 	
