@@ -98,7 +98,7 @@ public class InterviewCtrl extends Controller{
 			interview.interviewRate = interviewRate;
 			interview.save();
 			//flash("success", "Interview " + interviewForm.get() + " has been completed");
-			return ok(index.render(Category.findAllCategories(), "Interview Completed"));
+			return ok(index.render(Category.findAllCategories(), "Interview Completed, "+interview.candidate.name+"'s score is "+interview.interviewRate.toString()));
 		}
 		
 	}

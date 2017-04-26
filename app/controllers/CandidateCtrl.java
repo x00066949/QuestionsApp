@@ -27,9 +27,10 @@ public class CandidateCtrl extends Controller{
 	
 	public Result addCandidateSubmit(){
 		Form<Candidate> newCandidateForm = Form.form(Candidate.class).bindFromRequest();
-			if (newCandidateForm.hasErrors()){
-				return badRequest(newCandidate.render(newCandidateForm, Category.findAllCategories()/* , User.getLoggedIn(session().get("email")) */));
-			}
+		
+		if (newCandidateForm.hasErrors()){
+			return badRequest(newCandidate.render(newCandidateForm, Category.findAllCategories()/* , User.getLoggedIn(session().get("email")) */));
+		}
 
 		newCandidateForm.get().save();
 		Candidate can = newCandidateForm.get();

@@ -4,6 +4,10 @@
 
 # Home page
 GET     /                           				controllers.Application.index
+
+#Questions
+GET		/uploadForm									controllers.QuestionCtrl.uploadForm
+POST	/upload										controllers.QuestionCtrl.upload
 GET     /listQuestions/								controllers.QuestionCtrl.getCategories(cat: String = "all")
 GET     /listQuestions/:cat                  		controllers.QuestionCtrl.getCategories(cat: String)
 

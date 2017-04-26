@@ -64,7 +64,11 @@ public class Category extends Model {
 
 		return categories;
 	}
-		
+	
+	public static List<Category> findAll() {
+		return Category.find.all();
+	}
+	
 /* 	public static Category getCategory(String name) {
         if (id == null)
                 return null;

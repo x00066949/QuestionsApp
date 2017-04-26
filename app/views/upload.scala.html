@@ -1,0 +1,20 @@
+@(categories: Set[models.Category])
+
+@import helper._
+
+@main("Upload Questions", categories){
+
+	<div class="row">
+		@form(action = routes.QuestionCtrl.upload, 'class -> "form-horizontal", 'enctype -> "multipart/form-data") {
+
+			<label>Upload Questions</label>
+			<p>Upload a .txt file with Questions listed in key:value pair format. Where key = category and value = question, with : between them</p>
+			<input class ="btn-sm btn-default" type="file" name="questionsFile">
+
+			<p>
+				<input type="submit" value="Submit Question" class="btn btn-primary" >
+			</p>
+
+		}
+	</div>
+}

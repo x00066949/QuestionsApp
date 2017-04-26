@@ -4,7 +4,10 @@ import play.*;
 import play.mvc.*;
 import play.data.*;
 import play.data.Form.*;
+import play.mvc.Http.*;
 import play.mvc.Http.Context;
+import play.mvc.Http.MultipartFormData;
+import play.mvc.Http.MultipartFormData.FilePart;
 
 import views.html.*;
 
@@ -16,10 +19,14 @@ import java.util.*;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.ArrayListMultimap;
 
+import java.io.*;
+import java.io.File;
 import java.io.FileReader;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
-import java.io.*;
+
+import javax.activation.MimetypesFileTypeMap;
+
 
 
 // Import models
@@ -27,8 +34,116 @@ import models.*;
 
 public class QuestionCtrl extends Controller{
 
+	public Result uploadForm(){
+        return ok(upload.render(Category.findAllCategories()));
 
-		// Show a list of all questions
+	}
+	
+	public Result upload(){
+		
+		//check to see if anything questions exist in DB before adding new questions...
+		//without this check, all new questions uploaded will be added to DB along with old Questions, so evey question ever uploaded will be generated when all questions link is clicked
+		
+		
+		if (Question.findAll() != null){
+			Ebean.delete(Question.findAll());
+		}
+		if (Category.findAll() != null){
+			Ebean.delete(Category.findAll());
+		}
+		
+		MultipartFormData body = request().body().asMultipartFormData();
+		FilePart questionsFile = body.getFile("questionsFile");
+		
+		if (questionsFile != null) {
+			String fileName = questionsFile.getFilename();
+			String contentType = questionsFile.getContentType();
+			File file = questionsFile.getFile();
+			
+			Set<Category> categories = new HashSet<Category>();
+			
+			try{
+				Multimap<String, String> mappedQuestions = ArrayListMultimap.create();
+				BufferedReader br = new BufferedReader(new FileReader(file));
+				
+				String line = " ";
+
+
+				while ((line = br.readLine()) != null){
+					
+					String [] parts = line.split(":");
+					String key = parts[0];
+					String value = parts[1];
+					
+					mappedQuestions.put(key,value);
+					
+				}
+				for (String key : mappedQuestions.keys()){
+					List<String> questionList = new ArrayList<String>();
+					List<Question> questions = new ArrayList<Question>();
+					
+					
+					questionList = (List) (mappedQuestions.get(key));
+					Category cat = new Category();
+					cat.name = key.toUpperCase();
+					
+					for (String question : questionList){
+
+						Question que = new Question();
+						que.question = question;
+						
+						que.category = cat;
+						
+						questions.add(que);
+						
+							
+							
+						int categoryRows = Category.find.where()
+							.like("name",cat.name)
+							.findRowCount();
+							
+						if (categoryRows == 0){
+							Ebean.save(cat);
+						}
+						
+						
+						int questionRows = Question.find
+							.where()
+							.like("category.name",cat.name)
+							.like("question",question)
+							.findRowCount();
+							
+							
+							
+						if (questionRows == 0){
+							Ebean.save(que);
+						}
+						
+					
+						
+					}
+					
+					cat.questions = questions;
+					
+					categories.add(cat);
+					
+				}
+				
+
+		
+			}catch (Exception f){
+				f.printStackTrace();
+			}
+			
+			return ok(index.render(Category.findAllCategories(),"File uploaded"));
+		} else {
+			//flash("error", "Missing file");
+			return badRequest();
+		}
+	}
+
+
+	// Show a list of all questions
     public Result listQuestions(String cat) {
 			// Get list of categories
 			List<Category> categories = Category.find.where().orderBy("name asc").findList();
@@ -58,86 +173,7 @@ public class QuestionCtrl extends Controller{
 	public Result getCategories(String catIn){
 		
 		
-		Set<Category> categories = new HashSet<Category>();
-
-		
-		try{
-			Multimap<String, String> mappedQuestions = ArrayListMultimap.create();
-			BufferedReader br = new BufferedReader(new FileReader("listQuestions.txt"));
-			
-			String line = " ";
-
-						
-			while ((line = br.readLine()) != null){
-				
-				String [] parts = line.split(":");
-				String key = parts[0];
-				String value = parts[1];
-				
-				mappedQuestions.put(key,value);
-				
-			}
-			for (String key : mappedQuestions.keys()){
-				List<String> questionList = new ArrayList<String>();
-				List<Question> questions = new ArrayList<Question>();
-				
-				
-				questionList = (List) (mappedQuestions.get(key));
-				Category cat = new Category();
-				cat.name = key.toUpperCase();
-				
-				for (String question : questionList){
-						
-						Question que = new Question();
-						que.question = question;
-						
-						que.category = cat;
-						
-						questions.add(que);
-						
-						
-						
-					int categoryRows = Category.find.where()
-						.like("name",cat.name)
-						.findRowCount();
-						
-					if (categoryRows == 0){
-						Ebean.save(cat);
-					}
-					
-					
-					int questionRows = Question.find
-						.where()
-						.like("category.name",cat.name)
-						.like("question",question)
-						.findRowCount();
-						
-						
-						
-					if (questionRows == 0){
-						Ebean.save(que);
-					}
-					
-				
-					
-				}
-				
-				cat.questions = questions;
-				
-				
-				
-				
-				categories.add(cat);
-				
-			}
-			
-
-		
-		}catch (Exception f){
-			f.printStackTrace();
-		}
-		
-		return ok(listQuestions.render(categories, catIn));
+		return ok(listQuestions.render(Category.findAllCategories(), catIn));
 
 	}
 	
