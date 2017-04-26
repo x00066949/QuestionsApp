@@ -14,35 +14,35 @@ public class Interview extends Model {
 	@Id
 	public Long id;
 	
-	
-	
+	@ManyToOne
+//	@Constraints.Required
 	public Candidate candidate;
 	
 
 	//Unidirectional mapping
 	@ManyToOne
-	public List<Question> questions;
+	public List<QuestionRate> questions;
 	
 	@ManyToOne
 	public InterviewGroup group;
 	
-	public List<Integer> rates;
+	public Integer interviewRate;
 	
 	public Interview(){
 		
 	}
-	public Interview(Candidate candidate, List<Question> questions){
+	public Interview(Candidate candidate, List<QuestionRate> questions){
 
 		this.candidate = candidate;
 		this.questions = questions;
 
 	}
 	
-	public Interview(Long id, Candidate candidate, List<Question> questions, List<Integer> rates){
+	public Interview(Long id, Candidate candidate, List<QuestionRate> questions, Integer interviewRate){
 		this.id = id;
 		this.candidate = candidate;
 		this.questions = questions;
-		this.rates = rates;
+		this.interviewRate = interviewRate;
 	}
 	
 	public static Finder<Long,Interview> find = new Finder<Long,Interview>(Long.class, Interview.class);

@@ -16,3 +16,17 @@ $(document).ready(function(){
         calcscore()
     });
 });
+
+function sum(){
+	var rate = document.querySelector('input[type = "radio"]:checked').value;
+}
+function getCheckedValue( ratingRadio ) {
+    var radios = document.getElementsByName( ratingRadio );
+    for( i = 0; i < radios.length; i++ ) {
+        if( radios[i].checked ) {
+			document.getElementById('sum').innerHTML=radios[i].value;
+            return radios[i].value;
+        }
+    }
+    return null;
+}

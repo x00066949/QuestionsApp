@@ -28,50 +28,48 @@ import models.*;
 
 //@Security.Authenticated(Secured.class)
 public class InterviewCtrl extends Controller{
-	//method to get 5 random questions from a specified category
+	
+	
+	private List<QuestionRate> randomQuestions = new ArrayList<QuestionRate>();
+	private Integer questionIndex = 1;
+	private Interview interview = new Interview();
+
+	private Integer interviewRate = 0;
+	
+	//method to get 5 random questions from a candidate's category
 	public Result getRandomQuestions(Long canId){
 		
-		//find category and candidate with same id as passed in the parameter
-		//Category category = Category.find.byId(catId);
+		//find candidate with same id as passed in the parameter
 		Candidate candidate = Candidate.find.byId(canId);
 		 
 		//check candidate and category exists. 
 		if (candidate != null /* && category != null */){
-			
-			//check candidate's role will match the questions generated
-			//if(candidate.role.id == catId){
-				
-				//add all questions in candidate
-					List<Question> qList = candidate.role.questions;
-				
-				
-			
-				Collections.shuffle(qList);
-				
-				List<Question> random5Questions = new ArrayList<Question>();
-				//List<Interview> randomQuestions = new ArrayList<Interview>();
 
-				for (int i = 0; i <= 4; i++){
-
-					random5Questions.add(qList.get(i));
-				}
 				
-				//create interview instance with detaails gathered so far
-				Interview cq = new Interview();
-				cq.candidate = candidate;
-				cq.questions = random5Questions;
-				
-//				Ebean.save(randomQuestions);
-				
-				Form<Interview> editQuestionRateForm = Form.form(Interview.class).fill(cq);
-				
-				//render page with pre filled form
-				return ok(candidateQuestions.render(editQuestionRateForm.fill(new Interview(candidate, random5Questions)), cq, Category.findAllCategories()));
-			//}else{
-			//	flash("Error Questions requested does not match candidate's role.");
-			//	return badRequest(index.render(Category.findAllCategories(), "Error Questions requested belong in "+category.name+" category. While Candidate is interviewing for "+candidate.role.name+" role. "));
-			//}
+			//add all questions in candidate
+			List<Question> qList = candidate.role.questions;
 			
+			//jumble all questions
+			Collections.shuffle(qList);
+
+			
+			for(int i = 0; i <= 4; i++){
+				QuestionRate cq = new QuestionRate();
+				cq.question = qList.get(i);
+				randomQuestions.add(cq);
+			}
+			//create interview instance with detaails gathered so far
+			//add list of questions to the interview object
+			interview.candidate = candidate;
+			interview.questions = randomQuestions;
+			
+			
+			
+			Form<QuestionRate> editQuestionRateForm = Form.form(QuestionRate.class);
+
+			//render page with pre filled form
+			return ok(candidateQuestions.render(editQuestionRateForm, interview.questions.get(0),interview.candidate, Category.findAllCategories()));
+
 		}
 		else{
 			flash("Error either category or candidate does not exist");
@@ -79,22 +77,29 @@ public class InterviewCtrl extends Controller{
 		}
 	}
 	
-	/* public Result editQuestionRate(Long id){
-		Form<CandidateQuestion> editQuestionRateForm = Form.form(CandidateQuestion.class).fill(CandidateQuestion.find.byId(id));
-		return ok (candidateQuestions.render(id, editQuestionRateForm, Category.findAllCategories()));
-	}	 */
+
 
 	public Result interviewSubmit() {
-		Form<Interview> interviewForm = Form.form(Interview.class).bindFromRequest();
+		Form<QuestionRate> interviewForm = Form.form(QuestionRate.class).bindFromRequest();
+		QuestionRate c= interviewForm.get();
 		
-		if(interviewForm.hasErrors()) {
-			return badRequest(candidateQuestions.render(interviewForm, interviewForm.get(), Category.findAllCategories()));
+		
+		int current = questionIndex;
+		
+		c.save();
+		
+		if(questionIndex < randomQuestions.size()){
+			interviewRate = interviewRate+c.rate;
+			questionIndex++;
+			
+			return ok(candidateQuestions.render(interviewForm, interview.questions.get(current), interview.candidate, Category.findAllCategories()));
+		}else{
+			
+			interview.interviewRate = interviewRate;
+			interview.save();
+			//flash("success", "Interview " + interviewForm.get() + " has been completed");
+			return ok(index.render(Category.findAllCategories(), "Interview Completed"));
 		}
 		
-		Interview c= interviewForm.get();
-
-		c.save();
-		flash("success", "Interview " + interviewForm.get() + " has been completed");
-		return redirect("/");
 	}
 }

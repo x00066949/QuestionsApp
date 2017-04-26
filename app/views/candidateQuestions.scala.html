@@ -1,47 +1,46 @@
-@(InterviewForm: Form[models.Interview],interview: models.Interview, categories: Set[models.Category])
+@(InterviewForm: Form[models.QuestionRate],interview: models.QuestionRate, candidate: models.Candidate, categories: Set[models.Category])
 
 @import helper._
 
 @main("Candidate Questions", categories) {
 
 	<div class="row">
-		@if(interview != null){
+		@if(candidate != null && interview != null){
 			<div class="col-md-4">
 
-				<h3>Candidate : @interview.candidate.name </h3>
-				<h3>Role : @interview.candidate.role.name</h3>
+				<h3>Candidate : @candidate.name </h3>
+				<h3>Role : @candidate.role.name</h3>
 				
-				total
-				<input type="text" name="sum" >
+
 			</div>
-			<div class="col-md-8">
-@helper.form(action = routes.InterviewCtrl.interviewSubmit(), 'class -> "form-horizontal", 'role->"form") {
+			<div class="col-md-7">
+
+				@helper.form(action = routes.InterviewCtrl.interviewSubmit(), 'class -> "form-horizontal", 'role->"form") {
+					<p class ="form-control"> @interview.question.question <br> </p>
+					<input type="hidden" name="question.id" value="@interview.question.id"/> <br>
+					<div id="ratingRadio" name="ratingRadio" class = "form-control">
+						<input type="radio" name="rate" value="1" />1
+						<input type="radio" name="rate" value="2" />2
+						<input type="radio" name="rate" value="3" />3
+						<input type="radio" name="rate" value="4" />4
+						<input type="radio" name="rate" value="5" />5
+
+					</div>
 					
-				@for(q <- interview.questions){
-					@q.question <br>
-
+					<div class="actions">
 						
 						
-						<div id="ratingRadio">
-							<input type="radio" id="@q.id" class="form-control" name="rates" value="1" />1
-							<input type="radio" id="@q.id" class="form-control" name="rates" value="2" />2
-							<input type="radio" id="@q.id" class="form-control" name="rates" value="3" />3
-							<input type="radio" id="@q.id" class="form-control" name="rates" value="4" />4
-							<input type="radio" id="@q.id" class="form-control" name="rates" value="5" />5
-
-						</div>
+						<a href="/" 
+							<button class="btn btn-warning">Cancel Interview</button>
+						</a>
 						
-						<div class="actions">
-						  <input type="submit" value="Submit answer" class="btn btn-primary">
-							<a href="/" 
-								<button class="btn btn-warning">Cancel</button>
-							</a>
-						</div>
-					}
-
+						<input type="submit" value="Next" class="btn btn-primary">
+					</div>
 				}
-			</div>
 
+			</div>
+			
+			
 		
 		}
 		
