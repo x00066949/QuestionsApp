@@ -2,13 +2,30 @@
 
 @main("Questions", categories) {
 
-	<div class="row">
-			
-			
-			
-			@if(current == "all") {
-				@for(c <- categories){
+	
+	@if(current == "all") {
+		@for(c <- categories){
+			<div class="row">
 
+				<div class="col-md-4">	
+				
+					<h3>@c.name</h3>
+					
+				</div>
+				<div class="col-md-8">
+					@for(q <- c.questions){
+						@q.question <br>
+					}
+				</div>
+
+			</div>
+			<hr>
+		} 
+	}else{
+	
+		@for(c <- categories){
+			<div class="row">
+				@if(c.name == current){
 					<div class="col-md-4">	
 					
 						<h3>@c.name</h3>
@@ -19,28 +36,12 @@
 							@q.question <br>
 						}
 					</div>
+				
 				} 
-			}else{
-			
-				@for(c <- categories){
-					@if(c.name == current){
-						<div class="col-md-4">	
-						
-							<h3>@c.name</h3>
-							
-						</div>
-						<div class="col-md-8">
-							@for(q <- c.questions){
-								@q.question <br>
-							}
-						</div>
-					
-					} 
+			</div>
+			<hr>
+		}
+	}	
 
-			
-				}
-			}	
-		
-	</div>
 
 }

@@ -7,7 +7,7 @@ create table candidate (
   id                        bigint not null,
   name                      varchar(255),
   role_id                   bigint,
-  rate                      integer,
+  num_questions             integer,
   constraint pk_candidate primary key (id))
 ;
 

@@ -20,7 +20,8 @@
 				'_label -> "Role", '_default -> "-- Choose a role --",
 				'_showConstraints -> false, 'class -> "form-control"
 			)
-			
+			@helper.inputText(addCandidateForm("numQuestions"), '_label ->"How many questions to generate", 'class -> "form-control", 'type -> "number")
+
 			<!-- Add a submit button -->
 			<div class="actions">
 				<input type="submit" value="Add Candidate" class="btn btn-primary">

@@ -22,7 +22,7 @@ public class Candidate extends Model {
 	@ManyToOne
 	public Category role;
 	
-	public int rate;
+	public int numQuestions;
 
 	public Interview interview;
 	
@@ -30,11 +30,11 @@ public class Candidate extends Model {
 		
 	}
 	
-	public  Candidate(Long id, String name, Category role, int rate){
+	public  Candidate(Long id, String name, Category role, int numQuestions){
         this.id = id;
         this.name = name;
         this.role = role;
-        this.rate = rate;
+        this.numQuestions = numQuestions;
     }
 	
 	/* public String getRoleName(){

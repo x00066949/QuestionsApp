@@ -15,3 +15,7 @@ libraryDependencies ++= Seq(
 // Play provides two styles of routers, one expects its actions to be injected, the
 // other, legacy style, accesses its actions statically.
 routesGenerator := InjectedRoutesGenerator
+
+//changes to files affects deployment in browser without re run
+//PlayKeys.playWatchService := play.sbtplugin.run.PlayWatchService.sbt(pollInterval.value)
+PlayKeys.fileWatchService :=  play.runsupport.FileWatchService.sbt(pollInterval.value)

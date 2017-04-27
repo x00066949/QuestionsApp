@@ -48,3 +48,6 @@ java:What do you like the most and least about working in this industry?
 qa:Would you work 40+ hours a week?
 c++:What questions haven’t I asked you?
 java:What questions do you have for me?
+a category:and a corresponding questions
+another category: another questions
+another category:the last

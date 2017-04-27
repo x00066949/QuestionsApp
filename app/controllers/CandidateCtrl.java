@@ -27,23 +27,23 @@ public class CandidateCtrl extends Controller{
 	
 	public Result addCandidateSubmit(){
 		Form<Candidate> newCandidateForm = Form.form(Candidate.class).bindFromRequest();
-		
+
 		if (newCandidateForm.hasErrors()){
 			return badRequest(newCandidate.render(newCandidateForm, Category.findAllCategories()/* , User.getLoggedIn(session().get("email")) */));
 		}
 
 		newCandidateForm.get().save();
-		Candidate can = newCandidateForm.get();
+		
 		flash("success", "Candidate " + newCandidateForm.get() + " has been created");
-		Candidate candidate = Candidate.find
+/* 		Candidate candidate = Candidate.find
 						.fetch("role","name")
 						.where()
-						.like("name",can.name)
-						.eq("id",can.id)
-						.findUnique();
-						
+						.like("name",newCandidateForm.get().name)
+						.eq("id",newCandidateForm.get().id)
+						.findUnique(); */
+		//if (candidate.numQuestions < )				
 		//String role = role1.getRoleName();
-		return redirect(routes.InterviewCtrl.getRandomQuestions(candidate.id));
+		return redirect(routes.InterviewCtrl.getRandomQuestions(newCandidateForm.get().id));
 	}
 
 	//@With(CheckManager.class)
