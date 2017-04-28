@@ -6,8 +6,6 @@
 create table candidate (
   id                        bigint not null,
   name                      varchar(255),
-  role_id                   bigint,
-  num_questions             integer,
   constraint pk_candidate primary key (id))
 ;
 
@@ -20,14 +18,12 @@ create table category (
 create table interview (
   id                        bigint not null,
   candidate_id              bigint,
-  group_id                  bigint,
+  role_id                   bigint,
+  num_questions             integer,
+  interview_date            timestamp,
   interview_rate            integer,
+  constraint uq_interview_candidate_id unique (candidate_id),
   constraint pk_interview primary key (id))
-;
-
-create table interview_group (
-  id                        bigint not null,
-  constraint pk_interview_group primary key (id))
 ;
 
 create table question (
@@ -39,8 +35,10 @@ create table question (
 
 create table question_rate (
   id                        bigint not null,
+  interview_id              bigint,
   question_id               bigint,
   rate                      integer,
+  comments                  varchar(255),
   constraint pk_question_rate primary key (id))
 ;
 
@@ -50,20 +48,18 @@ create sequence category_seq;
 
 create sequence interview_seq;
 
-create sequence interview_group_seq;
-
 create sequence question_seq;
 
 create sequence question_rate_seq;
 
-alter table candidate add constraint fk_candidate_role_1 foreign key (role_id) references category (id) on delete restrict on update restrict;
-create index ix_candidate_role_1 on candidate (role_id);
-alter table interview add constraint fk_interview_candidate_2 foreign key (candidate_id) references candidate (id) on delete restrict on update restrict;
-create index ix_interview_candidate_2 on interview (candidate_id);
-alter table interview add constraint fk_interview_group_3 foreign key (group_id) references interview_group (id) on delete restrict on update restrict;
-create index ix_interview_group_3 on interview (group_id);
-alter table question add constraint fk_question_category_4 foreign key (category_id) references category (id) on delete restrict on update restrict;
-create index ix_question_category_4 on question (category_id);
+alter table interview add constraint fk_interview_candidate_1 foreign key (candidate_id) references candidate (id) on delete restrict on update restrict;
+create index ix_interview_candidate_1 on interview (candidate_id);
+alter table interview add constraint fk_interview_role_2 foreign key (role_id) references category (id) on delete restrict on update restrict;
+create index ix_interview_role_2 on interview (role_id);
+alter table question add constraint fk_question_category_3 foreign key (category_id) references category (id) on delete restrict on update restrict;
+create index ix_question_category_3 on question (category_id);
+alter table question_rate add constraint fk_question_rate_interview_4 foreign key (interview_id) references interview (id) on delete restrict on update restrict;
+create index ix_question_rate_interview_4 on question_rate (interview_id);
 alter table question_rate add constraint fk_question_rate_question_5 foreign key (question_id) references question (id) on delete restrict on update restrict;
 create index ix_question_rate_question_5 on question_rate (question_id);
 
@@ -79,8 +75,6 @@ drop table if exists category;
 
 drop table if exists interview;
 
-drop table if exists interview_group;
-
 drop table if exists question;
 
 drop table if exists question_rate;
@@ -92,8 +86,6 @@ drop sequence if exists candidate_seq;
 drop sequence if exists category_seq;
 
 drop sequence if exists interview_seq;
-
-drop sequence if exists interview_group_seq;
 
 drop sequence if exists question_seq;
 

@@ -1,23 +1,25 @@
-@(InterviewForm: Form[models.QuestionRate],interview: models.QuestionRate, candidate: models.Candidate, categories: Set[models.Category])
+@(InterviewForm: Form[models.QuestionRate],interviewQuestion: models.QuestionRate, interview: models.Interview, categories: Set[models.Category])
 
 @import helper._
 
 @main("Candidate Questions", categories) {
 
 	<div class="row">
-		@if(candidate != null && interview != null){
+		@if(interview != null && interviewQuestion != null){
 			<div class="col-md-4">
 
-				<h3>Candidate : @candidate.name </h3>
-				<h3>Role : @candidate.role.name</h3>
+				<h3>Candidate : @interview.candidate.name </h3>
+				<h3>Role : @interview.role.name</h3>
 				
 
 			</div>
 			<div class="col-md-7">
 
 				@helper.form(action = routes.InterviewCtrl.interviewSubmit(), 'class -> "form-horizontal", 'role->"form") {
-					<p class ="form-control"> @interview.question.question <br> </p>
-					<input type="hidden" name="question.id" value="@interview.question.id"/> <br>
+					<p class ="form-control"> @interviewQuestion.question.question <br> </p>
+					<input type="hidden" name="question.id" value="@interviewQuestion.question.id"/> <br>
+					<input type="hidden" name="interview.id" value="@interview.id"/> <br>
+					@textarea(InterviewForm("comments"), args = 'rows->5, '_label -> "Comments", 'class -> "form-control")
 					<div id="ratingRadio" name="ratingRadio" class = "form-control">
 						<input type="radio" name="rate" value="1" />1
 						<input type="radio" name="rate" value="2" />2

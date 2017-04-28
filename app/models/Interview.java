@@ -14,17 +14,19 @@ public class Interview extends Model {
 	@Id
 	public Long id;
 	
-	@ManyToOne
+	@OneToOne
 //	@Constraints.Required
 	public Candidate candidate;
 	
+	@ManyToOne
+	public Category role;
 
-	//Unidirectional mapping
-	@ManyToOne
+	@OneToMany(mappedBy = "interview")
 	public List<QuestionRate> questions;
+
+	public int numQuestions;
 	
-	@ManyToOne
-	public InterviewGroup group;
+	public Date interviewDate;
 	
 	public Integer interviewRate;
 	
@@ -38,11 +40,13 @@ public class Interview extends Model {
 
 	}
 	
-	public Interview(Long id, Candidate candidate, List<QuestionRate> questions, Integer interviewRate){
+	public Interview(Long id, Candidate candidate, List<QuestionRate> questions, Integer interviewRate, Date interviewDate, Category role){
 		this.id = id;
 		this.candidate = candidate;
 		this.questions = questions;
 		this.interviewRate = interviewRate;
+		this.interviewDate = interviewDate;
+		this.role = role;
 	}
 	
 	public static Finder<Long,Interview> find = new Finder<Long,Interview>(Long.class, Interview.class);

@@ -14,7 +14,8 @@ public class QuestionRate extends Model {
 	@Id
 	public Long id;
 	
-	
+	@ManyToOne
+	public Interview interview;
 
 	//Unidirectional mapping
 //	@Constraints.Required
@@ -23,22 +24,18 @@ public class QuestionRate extends Model {
 	
 	public Integer rate;
 	
-	
+	public String comments;
 	
 	public QuestionRate(){
 		
 	}
-/* 	public QuestionRate(Candidate candidate, Question question){
 
-		this.candidate = candidate;
-		this.question = question;
-
-	} */
 	
-	public QuestionRate(Long id, Question question, Integer rate){
+	public QuestionRate(Long id, Question question, Integer rate, String comments){
 		this.id = id;
 		this.question = question;
 		this.rate = rate;
+		this.comments = comments;
 	}
 	
 	public static Finder<Long,QuestionRate> find = new Finder<Long,QuestionRate>(Long.class, QuestionRate.class);

@@ -19,22 +19,25 @@ public class CandidateCtrl extends Controller{
 
 
 	public Result addCandidate(){
-		Form<Candidate> addCandidateForm = Form.form(Candidate.class);
+		Form<Interview> addInterviewCandidateForm = Form.form(Interview.class);
 
-		return ok(newCandidate.render(addCandidateForm, Category.findAllCategories() /* , User.getLoggedIn(session().get("email")) */));
+		return ok(newCandidate.render(addInterviewCandidateForm, Category.findAllCategories() /* , User.getLoggedIn(session().get("email")) */));
 	}
 	
 	
 	public Result addCandidateSubmit(){
-		Form<Candidate> newCandidateForm = Form.form(Candidate.class).bindFromRequest();
+		Form<Interview> newInterviewCandidateForm = Form.form(Interview.class).bindFromRequest();
 
-		if (newCandidateForm.hasErrors()){
-			return badRequest(newCandidate.render(newCandidateForm, Category.findAllCategories()/* , User.getLoggedIn(session().get("email")) */));
+		if (newInterviewCandidateForm.hasErrors()){
+			return badRequest(newCandidate.render(newInterviewCandidateForm, Category.findAllCategories()/* , User.getLoggedIn(session().get("email")) */));
 		}
-
-		newCandidateForm.get().save();
 		
-		flash("success", "Candidate " + newCandidateForm.get() + " has been created");
+		Candidate candidate = new Candidate();
+		candidate = newInterviewCandidateForm.get().candidate;
+		candidate.save();
+		newInterviewCandidateForm.get().save();
+		
+		flash("success", "Candidate " + newInterviewCandidateForm.get() + " has been created");
 /* 		Candidate candidate = Candidate.find
 						.fetch("role","name")
 						.where()
@@ -43,7 +46,7 @@ public class CandidateCtrl extends Controller{
 						.findUnique(); */
 		//if (candidate.numQuestions < )				
 		//String role = role1.getRoleName();
-		return redirect(routes.InterviewCtrl.getRandomQuestions(newCandidateForm.get().id));
+		return redirect(routes.InterviewCtrl.getRandomQuestions(newInterviewCandidateForm.get().id));
 	}
 
 	//@With(CheckManager.class)

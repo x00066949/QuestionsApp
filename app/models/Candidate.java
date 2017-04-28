@@ -19,28 +19,19 @@ public class Candidate extends Model {
 	public String name;
 	
 
-	@ManyToOne
-	public Category role;
-	
-	public int numQuestions;
-
 	public Interview interview;
 	
 	public Candidate(){
 		
 	}
 	
-	public  Candidate(Long id, String name, Category role, int numQuestions){
+	public  Candidate(Long id, String name, Interview interview){
         this.id = id;
         this.name = name;
-        this.role = role;
-        this.numQuestions = numQuestions;
+        this.interview = interview;
+
     }
-	
-	/* public String getRoleName(){
-		return role.name;
-		
-	} */
+
 	
 	public static Finder<Long,Candidate> find = new Finder<Long,Candidate>(Long.class, Candidate.class);
 

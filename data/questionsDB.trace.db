@@ -185,3 +185,6 @@ org.h2.message.DbException: The connection was not closed by the application and
 Caused by: org.h2.jdbc.JdbcSQLException: The connection was not closed by the application and is garbage collected [90018-187]
 	at org.h2.message.DbException.getJdbcSQLException(DbException.java:345)
 	... 82 more
+04-28 08:29:03 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "FROMCANDIDATE" not found; SQL statement:
+delete FROMCANDIDATE [42102-187]

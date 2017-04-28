@@ -1,4 +1,4 @@
-@(addCandidateForm: Form[models.Candidate], categories: Set[models.Category])
+@(addCandidateForm: Form[models.Interview], categories: Set[models.Category])
 
 @import helper._
 
@@ -13,7 +13,7 @@
 			
 			<!-- Build the form, adding an input for each field -->
 			
-			@inputText(addCandidateForm("name"), '_label -> "Name",'class -> "form-control")
+			@inputText(addCandidateForm("candidate.name"), '_label -> "Name",'class -> "form-control")
 			@select(
 				addCandidateForm("role.id"), 
 				options(Category.options), 

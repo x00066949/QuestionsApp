@@ -29,22 +29,23 @@ public class Category extends Model {
 	public List<Question> questions;
 	
 	@OneToMany(mappedBy = "role")
-	public List<Candidate> candidates;
+	public List<Interview> interviews;
 
     // Default constructor
     public  Category() {
     }
 
-    public  Category( Long id, String name, List<Question> questions) {
-			this.id = id;
-			this.name = name;
-			this.questions = questions;
+    public  Category( Long id, String name, List<Question> questions,List<Interview> interviews ) {
+		this.id = id;
+		this.name = name;
+		this.questions = questions;
+		this.interviews = interviews;
     }
 
-		//Generic query helper for category entity with name
+	//Generic query helper for category entity with name
     public static Finder<Long,Category> find = new Finder<Long,Category>(Long.class, Category.class);
 
-		// Generate options for an HTML select control
+	// Generate options for an HTML select control
     public static Map<String,String> options() {
         LinkedHashMap<String,String> options = new LinkedHashMap<String,String>();
         for(Category c: Category.find.orderBy("name").findList()) {
@@ -55,7 +56,7 @@ public class Category extends Model {
     }
 	
 
-		//Find all categories in the database
+	//Find all categories in the database
 	public static Set<Category> findAllCategories() {
 		Set<Category> categories = new HashSet<Category>();
 		for (Category c : Category.find.all()){
