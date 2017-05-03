@@ -22,9 +22,19 @@
 			<hr>
 		} 
 	}else{
-	
+		<div class="row">
+
+			@if(current == "NO CATEGORY DEFINED"){
+				<div class="col-md-12">	
+					<p>All Questions that appear in this category were on a line that begins with ":" to place these questions in a category, Enter a category befor the colon ":" and re-upload the file</p>
+					<hr>
+				</div>
+			}
+		</div>
 		@for(c <- categories){
+			
 			<div class="row">
+				
 				@if(c.name == current){
 					<div class="col-md-4">	
 					
@@ -36,10 +46,10 @@
 							@q.question <br>
 						}
 					</div>
-				
+					<hr>
+
 				} 
 			</div>
-			<hr>
 		}
 	}	
 

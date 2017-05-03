@@ -32,7 +32,7 @@
 
     <!-- Navigation -->
 	
-	<div class="navbar navbar-fixed-top navbar-default" role="navigation">
+<div class="navbar navbar-fixed-top navbar-default" role="navigation">
     <div class="container-fluid">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -60,54 +60,49 @@
 
 	
     <div class="row row-offcanvas row-offcanvas-left">
-		<br>
 		<div class="row jumbotron">
 			<a href="#" class="visible-xs" data-toggle="offcanvas"><i class="fa fa-lg fa-reorder"></i></a>
 			<h1>Questions App</h1>
 		
 		</div>
-        <div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar" role="navigation">
-            <div class="sidebar-nav collapse navbar-collapse">
-			
-				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-				   <span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-				</button>
-                <ul class="nav">
-
-                    <li class="active"><a href="@routes.QuestionCtrl.getCategories("all")">ALL QUESTIONS</a></li>
-					<li class="nav-divider"></li>
-					@for(c <- categories){
-
-						<li><a href="@routes.QuestionCtrl.getCategories(c.name)">@c.name</a></li>
-						<li class="nav-divider"></li>
-                        
-	                }    
-
-                </ul>
-            </div>
-            <!--/nav -->
-        </div>
-        <!--/span-->
-		
-		  <!-- Page Content -->
-        <div class="col-xs-12 col-sm-9">
-
-            <div class="row">
+		<div class="row">
+			<div class="col-xs-12 col-sm-3 sidebar-offcanvas" id="sidebar" role="navigation">
+				<div class="sidebar-nav ">
 				
-				<!-- Start Content -->
-				@content
-				<!-- End Content -->
+					<ul class="nav">
 
+						<li class="active"><a href="@routes.QuestionCtrl.getCategories("all")">ALL QUESTIONS</a></li>
+						<li class="nav-divider"></li>
+						@for(c <- categories){
+
+							<li><a href="@routes.QuestionCtrl.getCategories(c.name)">@c.name</a></li>
+							<li class="nav-divider"></li>
+							
+						}    
+
+					</ul>
+				</div>
+				<!--/nav -->
 			</div>
-			<!--/row-->
+			<!--/span-->
+			
+			<!-- Page Content -->
+
+				<div class="col-xs-12 col-sm-9">
+
+					<div class="row">
+						
+						<!-- Start Content -->
+						@content
+						<!-- End Content -->
+
+					</div>
+					<!--/row-->
+				</div>
+				<!--/col-->
 		</div>
-		<!--/col-->
-		
 	</div>
 	<!--/row-->	
-    <div class="container">
 
         <hr>
 
@@ -120,11 +115,9 @@
             </div>
         </footer>
 
-    </div>
-</div>
-    <!-- /.container -->
    
-
+ </div>  
+ <!-- /.container -->
 	
  <!-- jQuery -->
     <script type="text/javascript" src="@routes.Assets.versioned("javascripts/jquery.js")"></script>

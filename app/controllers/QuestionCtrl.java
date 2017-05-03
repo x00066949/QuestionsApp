@@ -68,15 +68,23 @@ public class QuestionCtrl extends Controller{
 				
 				String line = " ";
 
-
+				int lineNum=0;
+				
 				while ((line = br.readLine()) != null){
+					lineNum++;
 					
-					String [] parts = line.split(":");
+					String [] parts = line.split(":",2);
+
 					String key = parts[0];
+
 					String value = parts[1];
-					
-					mappedQuestions.put(key,value);
-					
+
+					if (!key.equals("")){
+
+						mappedQuestions.put(key,value);
+					}else{
+						mappedQuestions.put("NO CATEGORY DEFINED",value);
+					}
 				}
 				for (String key : mappedQuestions.keys()){
 					List<String> questionList = new ArrayList<String>();
