@@ -38,6 +38,10 @@ footer {
   }
 }
 
+#content{
+	padding: 1.5em;
+}
+
 #sidebar {
     padding:15px;
     margin-top:10px;

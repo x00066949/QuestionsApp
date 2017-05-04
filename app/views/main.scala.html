@@ -47,6 +47,7 @@
                 <li><a href="/">Home</a></li>
 				<li><a href="/uploadForm">Upload Questions</a></li>
                 <li><a href="/newCandidate">Start Interview</a></li>
+				<li><a href="/listQuestions">List Questions</a></li>
             </ul>
         </div>
         <!-- /.nav-collapse -->
@@ -64,56 +65,26 @@
 			<a href="#" class="visible-xs" data-toggle="offcanvas"><i class="fa fa-lg fa-reorder"></i></a>
 			<h1>Questions App</h1>
 		
-		</div>
-		<div class="row">
-			<div class="col-xs-12 col-sm-3 sidebar-offcanvas" id="sidebar" role="navigation">
-				<div class="sidebar-nav ">
-				
-					<ul class="nav">
-
-						<li class="active"><a href="@routes.QuestionCtrl.getCategories("all")">ALL QUESTIONS</a></li>
-						<li class="nav-divider"></li>
-						@for(c <- categories){
-
-							<li><a href="@routes.QuestionCtrl.getCategories(c.name)">@c.name</a></li>
-							<li class="nav-divider"></li>
-							
-						}    
-
-					</ul>
-				</div>
-				<!--/nav -->
-			</div>
-			<!--/span-->
-			
-			<!-- Page Content -->
-
-				<div class="col-xs-12 col-sm-9">
-
-					<div class="row">
-						
-						<!-- Start Content -->
-						@content
-						<!-- End Content -->
-
-					</div>
-					<!--/row-->
-				</div>
-				<!--/col-->
+		</div>	
+		<div id="content">
+			<!-- Start Content -->
+			@content
+			<!-- End Content -->
 		</div>
 	</div>
 	<!--/row-->	
 
-        <hr>
 
-        <!-- Footer -->
-        <footer>
-            <div class="row">
-                <div class="col-lg-12">
-                    <p>Openet Questions App</p>
-                </div>
-            </div>
-        </footer>
+	<!-- Footer -->
+	<footer>
+		<hr>
+
+		<div class="row">
+			<div class="col-lg-12">
+				<p>Openet Questions App</p>
+			</div>
+		</div>
+	</footer>
 
    
  </div>  

@@ -8,16 +8,20 @@ GET     /                           				controllers.Application.index
 #Questions
 GET		/uploadForm									controllers.QuestionCtrl.uploadForm
 POST	/upload										controllers.QuestionCtrl.upload
-GET     /listQuestions/								controllers.QuestionCtrl.getCategories(cat: String = "all")
+GET     /listQuestions								controllers.QuestionCtrl.getCategories(cat: String = "all")
 GET     /listQuestions/:cat                  		controllers.QuestionCtrl.getCategories(cat: String)
 
 #Add a new candidate
 GET		/newCandidate								controllers.CandidateCtrl.addCandidate
 POST	/addCandidateSubmit							controllers.CandidateCtrl.addCandidateSubmit()
 
+#Delete Candidate
+GET		/deleteCandidate/:id							controllers.CandidateCtrl.deleteCandidate(id:Long)
+
+
 #Get random questions for a candidate
 
-GET		/:interview/newinterview								controllers.InterviewCtrl.getRandomQuestions(interview: Long)
+GET		/:interview/newinterview					controllers.InterviewCtrl.getRandomQuestions(interview: Long)
 POST	/interview									controllers.InterviewCtrl.interviewSubmit()
 
 # Map static resources from the /public folder to the /assets URL path

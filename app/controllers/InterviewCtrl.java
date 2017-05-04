@@ -41,7 +41,11 @@ public class InterviewCtrl extends Controller{
 		List<QuestionRate> randomQuestions = new ArrayList<QuestionRate>();
 		//find interview with same id as passed in the parameter
 		interview = Interview.find.byId(interviewId);
-		 
+		
+		//make sure we're starting with zero values
+		questionIndex = 0;
+		interviewRate = 0;
+		
 		//check interview and category exists. 
 		if (interview != null /* && category != null */){
 

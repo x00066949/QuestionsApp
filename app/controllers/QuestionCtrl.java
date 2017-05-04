@@ -79,7 +79,7 @@ public class QuestionCtrl extends Controller{
 
 					String value = parts[1];
 
-					if (!key.equals("")){
+					if (key.trim().length() > 0){
 
 						mappedQuestions.put(key,value);
 					}else{

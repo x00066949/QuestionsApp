@@ -4,11 +4,11 @@
 
 @main("Upload Questions", categories){
 
-	<div class="row">
+	<div class="col-md-8">
 		@form(action = routes.QuestionCtrl.upload, 'class -> "form-horizontal", 'enctype -> "multipart/form-data") {
 
 			<label>Upload Questions</label>
-			<p>Upload a .txt file with Questions listed in key:value pair format. Where key = category and value = question, with : between them</p>
+			<p>Upload a file (eg .xls, .csv, .txt) with Questions listed in key:value pair format. Where key = category and value = question, with : between them</p>
 			<input class ="btn-sm btn-default" type="file" name="questionsFile">
 
 			<p>

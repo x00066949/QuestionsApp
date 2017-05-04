@@ -5,6 +5,8 @@ import play.mvc.*;
 import play.data.*;
 import play.data.Form.*;
 
+import com.avaje.ebean.Ebean;
+
 import views.html.*;
 
 // Import required classes
@@ -34,6 +36,7 @@ public class CandidateCtrl extends Controller{
 		
 		Candidate candidate = new Candidate();
 		candidate = newInterviewCandidateForm.get().candidate;
+		candidate.interview = newInterviewCandidateForm.get();
 		candidate.save();
 		newInterviewCandidateForm.get().save();
 		
@@ -51,9 +54,28 @@ public class CandidateCtrl extends Controller{
 
 	//@With(CheckManager.class)
 	public Result deleteCandidate(Long id) {
-		Candidate.find.ref(id).delete();	
+		Interview intDelete = Interview.find
+		.where()
+		.eq("candidate_id",id)
+		.findUnique();
+	
+
+		//find all questions associated with the interview
+		List <QuestionRate> qr = QuestionRate.find
+		.where()
+		.eq("interview_id",intDelete.id)
+		.findList();
+		
+		Ebean.delete(qr);
+		
+		//delete the interview instance for the candidate before deleteing candidate
+		intDelete.delete();
+		
+		//then delete candidate
+		Candidate.find.ref(id).delete();
+
 		flash("success", "Candidate has been deleted");
-		return redirect("/listCandidates");
+		return redirect("/");
 		}
 		
 	public Result editCandidate(Long id){
