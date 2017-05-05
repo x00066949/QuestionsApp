@@ -48,7 +48,7 @@ public class CandidateCtrl extends Controller{
 						.eq("id",newCandidateForm.get().id)
 						.findUnique(); */
 		//if (candidate.numQuestions < )				
-		//String role = role1.getRoleName();
+
 		return redirect(routes.InterviewCtrl.getRandomQuestions(newInterviewCandidateForm.get().id));
 	}
 

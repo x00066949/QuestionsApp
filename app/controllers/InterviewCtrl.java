@@ -12,6 +12,9 @@ import com.avaje.ebean.Ebean;
 
 // Import required classes
 import java.util.*;
+import java.time.format.DateTimeFormatter;
+import java.time.LocalDate;
+
 
 import com.google.common.collect.Multimap;
 import com.google.common.collect.ArrayListMultimap;
@@ -95,11 +98,13 @@ public class InterviewCtrl extends Controller{
 		
 		
 		//int current = questionIndex;
-		
-		c.save();
+		if(c.rate != null){
+			c.save();
 
-		interviewRate = interviewRate+c.rate;
-		questionIndex++;
+			
+			interviewRate = interviewRate+c.rate;
+			questionIndex++;
+		}
 		if(questionIndex < interview.numQuestions){
 			
 			
@@ -107,7 +112,7 @@ public class InterviewCtrl extends Controller{
 		}else{
 			
 			interview.interviewRate = interviewRate;
-			interview.interviewDate = new Date();
+			//interview.interviewDate = new Date();
 			interview.save();
 			
 			//reset interview rate back to zero so a fresh rate is created for a new interview
@@ -117,4 +122,31 @@ public class InterviewCtrl extends Controller{
 		}
 		
 	}
+	
+	public Result groupInterviews(String date){
+
+		List<Interview> interviewList = new ArrayList<Interview>();
+		Set<String> dates = new TreeSet<>();
+		
+		if (date.equals("0")){
+			interviewList = Interview.findAll();
+		}else{
+			//convert from String to date
+			//DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+			LocalDate dt = LocalDate.parse(date);
+			
+			interviewList = Interview.find
+						.where()
+						.eq("INTERVIEW_DATE",dt)
+						.orderBy("INTERVIEW_RATE desc")
+						.findList(); 
+		}
+		
+		for (Interview i : interviewList){
+			dates.add(i.interviewDate.toString());
+		}
+		
+		
+		return ok(interviews.render(Category.findAllCategories(), interviewList, dates));
+	}	
 }

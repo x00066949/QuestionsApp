@@ -20,7 +20,7 @@ create table interview (
   candidate_id              bigint,
   role_id                   bigint,
   num_questions             integer,
-  interview_date            timestamp,
+  interview_date            date,
   interview_rate            integer,
   constraint uq_interview_candidate_id unique (candidate_id),
   constraint pk_interview primary key (id))

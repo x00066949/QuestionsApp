@@ -1,3 +1,4 @@
+
 package controllers;
 
 import play.*;
@@ -45,12 +46,17 @@ public class QuestionCtrl extends Controller{
 		//without this check, all new questions uploaded will be added to DB along with old Questions, so evey question ever uploaded will be generated when all questions link is clicked
 		
 		
-		if (Question.findAll() != null){
-			Ebean.delete(Question.findAll());
-		}
+
 		if (Category.findAll() != null){
+			Ebean.delete(QuestionRate.findAll());
+			Ebean.delete(Question.findAll());
+			Ebean.delete(Interview.findAll());
+			Ebean.delete(Candidate.findAll());
+			
 			Ebean.delete(Category.findAll());
+			
 		}
+
 		
 		MultipartFormData body = request().body().asMultipartFormData();
 		FilePart questionsFile = body.getFile("questionsFile");
@@ -60,7 +66,6 @@ public class QuestionCtrl extends Controller{
 			String contentType = questionsFile.getContentType();
 			File file = questionsFile.getFile();
 			
-			Set<Category> categories = new HashSet<Category>();
 			
 			try{
 				Multimap<String, String> mappedQuestions = ArrayListMultimap.create();
@@ -102,39 +107,32 @@ public class QuestionCtrl extends Controller{
 						
 						que.category = cat;
 						
-						questions.add(que);
-						
-							
-							
-						int categoryRows = Category.find.where()
-							.like("name",cat.name)
-							.findRowCount();
-							
-						if (categoryRows == 0){
-							Ebean.save(cat);
-						}
 						
 						
 						int questionRows = Question.find
 							.where()
 							.like("category.name",cat.name)
 							.like("question",question)
-							.findRowCount();
-							
-							
-							
+							.findRowCount();	
+
 						if (questionRows == 0){
-							Ebean.save(que);
+							questions.add(que);
 						}
-						
 					
 						
 					}
+					cat.questions = questions;							
+					int categoryRows = Category.find.where()
+						.like("name",cat.name)
+						.findRowCount();
+						
+					if (categoryRows == 0){
+						Ebean.save(cat);
+					}
 					
-					cat.questions = questions;
 					
-					categories.add(cat);
-					
+					Ebean.save(questions);
+						
 				}
 				
 

@@ -1,6 +1,7 @@
 package models;
 
 import java.util.*;
+import java.time.LocalDate;
 import javax.persistence.*;
 
 import play.data.format.*;
@@ -26,13 +27,14 @@ public class Interview extends Model {
 
 	public int numQuestions;
 	
-	public Date interviewDate;
+	public LocalDate interviewDate;
 	
 	public Integer interviewRate;
 	
 	public Interview(){
-		
+		this.interviewDate = LocalDate.now();
 	}
+	
 	public Interview(Candidate candidate, List<QuestionRate> questions){
 
 		this.candidate = candidate;
@@ -40,13 +42,17 @@ public class Interview extends Model {
 
 	}
 	
-	public Interview(Long id, Candidate candidate, List<QuestionRate> questions, Integer interviewRate, Date interviewDate, Category role){
+	public Interview(Long id, Candidate candidate, List<QuestionRate> questions, Integer interviewRate, LocalDate interviewDate, Category role){
 		this.id = id;
 		this.candidate = candidate;
 		this.questions = questions;
 		this.interviewRate = interviewRate;
 		this.interviewDate = interviewDate;
 		this.role = role;
+	}
+	
+	public String getInterviewDateString(){
+		return interviewDate.toString();
 	}
 	
 	public static Finder<Long,Interview> find = new Finder<Long,Interview>(Long.class, Interview.class);
