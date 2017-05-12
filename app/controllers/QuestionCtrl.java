@@ -44,7 +44,7 @@ public class QuestionCtrl extends Controller{
 		
 		//check to see if anything questions exist in DB before adding new questions...
 		//without this check, all new questions uploaded will be added to DB along with old Questions, so evey question ever uploaded will be generated when all questions link is clicked
-		
+		System.out.println("Upload");
 		
 
 		if (Category.findAll() != null){
@@ -151,6 +151,8 @@ public class QuestionCtrl extends Controller{
 
 	// Show a list of all questions
     public Result listQuestions(String cat) {
+				System.out.println("List Questions");
+
 			// Get list of categories
 			List<Category> categories = Category.find.where().orderBy("name asc").findList();
 			// Instansiate questions, an Arraylist of questions			

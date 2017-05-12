@@ -26,7 +26,7 @@ POST	/interview									controllers.InterviewCtrl.interviewSubmit()
 
 #Group interviews by date
 
-GET		/:date										controllers.InterviewCtrl.groupInterviews(date: String)
+GET		/:date/:cat										controllers.InterviewCtrl.groupInterviews(date: String, cat: Long)
 
 
 # Map static resources from the /public folder to the /assets URL path

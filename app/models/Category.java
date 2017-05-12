@@ -34,6 +34,12 @@ public class Category extends Model {
     // Default constructor
     public  Category() {
     }
+	
+	public  Category(Long id, String name) {
+		this.id = id;
+		this.name = name;
+	}
+
 
     public  Category( Long id, String name, List<Question> questions,List<Interview> interviews ) {
 		this.id = id;

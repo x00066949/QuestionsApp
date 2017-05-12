@@ -6,7 +6,7 @@ $(document).ready(function() {
 
 /* https://www.w3schools.com/howto/howto_css_modals.asp */
 
-
+$("#myModal").css("z-index", "15000");
 
 // Get the modal
 var modal = document.getElementById('myModal');
@@ -21,6 +21,7 @@ var span = document.getElementsByClassName("close")[0];
 btn.onclick = function() {
     modal.style.display = "block";
 }
+$('#myModal').appendTo("body")
 
 // When the user clicks on <span> (x), close the modal
 span.onclick = function() {

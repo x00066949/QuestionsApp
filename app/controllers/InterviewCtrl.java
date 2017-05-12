@@ -14,7 +14,7 @@ import com.avaje.ebean.Ebean;
 import java.util.*;
 import java.time.format.DateTimeFormatter;
 import java.time.LocalDate;
-
+import java.time.format.DateTimeParseException;
 
 import com.google.common.collect.Multimap;
 import com.google.common.collect.ArrayListMultimap;
@@ -116,37 +116,61 @@ public class InterviewCtrl extends Controller{
 			interview.save();
 			
 			//reset interview rate back to zero so a fresh rate is created for a new interview
-			interviewRate = 0;
-			questionIndex = 0;
+			//interviewRate = 0;
+			//questionIndex = 0;
 			return ok(index.render(Category.findAllCategories(), "Interview Completed, "+interview.candidate.name+"'s score is "+interview.interviewRate.toString()));
 		}
 		
 	}
 	
-	public Result groupInterviews(String date){
+	public Result groupInterviews(String date, Long cat){
 
-		List<Interview> interviewList = new ArrayList<Interview>();
+		List<Interview> interviewList = Interview.findAll();
 		Set<String> dates = new TreeSet<>();
-		
-		if (date.equals("0")){
-			interviewList = Interview.findAll();
-		}else{
-			//convert from String to date
-			//DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-			LocalDate dt = LocalDate.parse(date);
-			
-			interviewList = Interview.find
-						.where()
-						.eq("INTERVIEW_DATE",dt)
-						.orderBy("INTERVIEW_RATE desc")
-						.findList(); 
-		}
 		
 		for (Interview i : interviewList){
 			dates.add(i.interviewDate.toString());
 		}
+		if (date.equals("0") && cat != 0){
+			interviewList = Interview.find
+							.where()
+							.eq("ROLE_id",cat)
+							.orderBy("INTERVIEW_RATE desc")
+							.findList();
+							
+		}
+		if (!date.equals("0")){
+			
+			//convert from String to date
+			try{
+				LocalDate dt = LocalDate.parse(date);
+				if(cat== 0){
+					interviewList = Interview.find
+							.where()
+							.eq("INTERVIEW_DATE",dt)
+							.orderBy("INTERVIEW_RATE desc")
+							.findList(); 
+					
+				}else{
+					interviewList = Interview.find
+							.where()
+							.eq("INTERVIEW_DATE",dt)
+							.eq("ROLE_id",cat)
+							.orderBy("INTERVIEW_RATE desc")
+							.findList();
+				}
+			}catch(DateTimeParseException dp){
+				dp.printStackTrace();
+			}
+			
+			
+			
+		}
+		
 		
 		
 		return ok(interviews.render(Category.findAllCategories(), interviewList, dates));
-	}	
+	}
+
+	
 }
