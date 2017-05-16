@@ -1,4 +1,4 @@
-@(InterviewForm: Form[models.QuestionRate],interviewQuestion: models.QuestionRate, interview: models.Interview, categories: Set[models.Category])
+@(InterviewForm: Form[models.QuestionRate],interviewQuestion: models.QuestionRate, interview: models.Interview, categories: Set[models.Category], questionIndex: Integer)
 
 @import helper._
 
@@ -14,6 +14,8 @@
 
 			</div>
 			<div class="col-md-7">
+				<h3>Question @questionIndex out of @interview.numQuestions</h3>
+
 
 				@helper.form(action = routes.InterviewCtrl.interviewSubmit(), 'class -> "form-horizontal", 'role->"form") {
 					<p class ="form-control"> @interviewQuestion.question.question <br> </p>
@@ -35,8 +37,12 @@
 						<a href="/deleteCandidate/@interview.candidate.id" 
 							<button class="btn btn-warning">Cancel Interview</button>
 						</a>
-						
+						@if(questionIndex == interview.numQuestions){
+							<input type="submit" value="End Interview" class="btn btn-primary">
+
+						}else{
 						<input type="submit" value="Next" class="btn btn-primary">
+						}
 					</div>
 				}
 

@@ -1,4 +1,4 @@
-@(categories: Set[models.Category], interviewList: List[models.Interview], dates: Set[String])
+@(categories: Set[models.Category], interviewList: List[models.Interview], dates: Set[String], currentDate: String, currentRole: String)
 
 @import play.api.Play.resource
 @import play.api.Play.current
@@ -53,6 +53,8 @@
 
 		<div class="col-md-10"> 
 		
+		
+			<h3>Displaying Interviews held on @currentDate for @currentRole positions</h3>
 
 
 			<table class="table table-bordered table-hover table-condensed" id="tab">
@@ -71,7 +73,7 @@
 				</thead>
 				<tbody>
 					<!-- Start of For loop - For each interview found add a row -->
-					@for(i <- interviewList) {
+					@for((i, index) <- interviewList.zipWithIndex) {
 					
 					<tr>						
 						
@@ -80,13 +82,19 @@
 						<td>@i.numQuestions</td>
 						<td>@i.interviewDate</td>
 						<td>@i.interviewRate</td>
-						<td><button id="comments">Show Comments</button>
+						<td>
+							@if(index == 0){
+								<button class="comments" onclick="displayLast()">Show Comments</button>
+
+							}else{
+							<button class="comments" onclick="displayModal(@index)">Show Comments</button>
+							}
 							<!-- The Modal -->
-							<div id="myModal" class="modal">
+							<div id="myModal" class="modal myModal">
 
 							  <!-- Modal content -->
 							  <div class="modal-content">
-								<span class="close">&times;</span>
+								<span class="close" id="close">&times;</span>
 								
 									@for(q <- i.questions){
 										<hr>
@@ -96,11 +104,11 @@
 										
 									}
 							  </div>
+							</div>
 						</td>
 
 						</tr>
 						
-					
 					}<!-- End of For loop -->
 				</tbody>
 			</table>

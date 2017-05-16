@@ -73,7 +73,7 @@ public class InterviewCtrl extends Controller{
 				Form<QuestionRate> editQuestionRateForm = Form.form(QuestionRate.class);
 
 				//render page with pre filled form
-				return ok(candidateQuestions.render(editQuestionRateForm, interview.questions.get(questionIndex),interview, Category.findAllCategories()));
+				return ok(candidateQuestions.render(editQuestionRateForm, interview.questions.get(questionIndex),interview, Category.findAllCategories(), questionIndex+1));
 			}else {
 				Ebean.delete(interview);
 				return badRequest(index.render(Category.findAllCategories(), "Error: You have requested "+interview.numQuestions
@@ -108,7 +108,7 @@ public class InterviewCtrl extends Controller{
 		if(questionIndex < interview.numQuestions){
 			
 			
-			return ok(candidateQuestions.render(interviewForm, interview.questions.get(questionIndex), interview, Category.findAllCategories()));
+			return ok(candidateQuestions.render(interviewForm, interview.questions.get(questionIndex), interview, Category.findAllCategories(), questionIndex+1));
 		}else{
 			
 			interview.interviewRate = interviewRate;
@@ -124,21 +124,22 @@ public class InterviewCtrl extends Controller{
 	}
 	
 	public Result groupInterviews(String date, Long cat){
+		
+		Ebean.delete(Interview.find.where().eq("candidate_id",null).findList());
 
 		List<Interview> interviewList = Interview.findAll();
 		Set<String> dates = new TreeSet<>();
+		String role="all";
 		
+		if (cat != 0){
+			Category matchingCategory = Category.find.where().eq("id",cat).findUnique();
+			role = matchingCategory.name;
+
+		}
 		for (Interview i : interviewList){
 			dates.add(i.interviewDate.toString());
 		}
-		if (date.equals("0") && cat != 0){
-			interviewList = Interview.find
-							.where()
-							.eq("ROLE_id",cat)
-							.orderBy("INTERVIEW_RATE desc")
-							.findList();
-							
-		}
+
 		if (!date.equals("0")){
 			
 			//convert from String to date
@@ -158,18 +159,30 @@ public class InterviewCtrl extends Controller{
 							.eq("ROLE_id",cat)
 							.orderBy("INTERVIEW_RATE desc")
 							.findList();
+					
+
 				}
 			}catch(DateTimeParseException dp){
 				dp.printStackTrace();
+				date = "all dates";
 			}
 			
 			
 			
 		}
+		if (date.equals("0") && cat != 0){
+			interviewList = Interview.find
+							.where()
+							.eq("ROLE_id",cat)
+							.orderBy("INTERVIEW_RATE desc")
+							.findList();
+							
+			date = "all dates";
+		}
 		
 		
 		
-		return ok(interviews.render(Category.findAllCategories(), interviewList, dates));
+		return ok(interviews.render(Category.findAllCategories(), interviewList, dates,date,role));
 	}
 
 	
