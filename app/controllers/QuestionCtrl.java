@@ -36,6 +36,8 @@ import models.*;
 public class QuestionCtrl extends Controller{
 
 	public Result uploadForm(){
+		System.out.println("Visit upload page");
+
         return ok(upload.render(Category.findAllCategories()));
 
 	}
@@ -151,7 +153,7 @@ public class QuestionCtrl extends Controller{
 
 	// Show a list of all questions
     public Result listQuestions(String cat) {
-				System.out.println("List Questions");
+			System.out.println("List Questions");
 
 			// Get list of categories
 			List<Category> categories = Category.find.where().orderBy("name asc").findList();

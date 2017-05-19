@@ -21,6 +21,8 @@ public class CandidateCtrl extends Controller{
 
 
 	public Result addCandidate(){
+		System.out.println("Creating candidate");
+
 		Form<Interview> addInterviewCandidateForm = Form.form(Interview.class);
 
 		return ok(newCandidate.render(addInterviewCandidateForm, Category.findAllCategories() /* , User.getLoggedIn(session().get("email")) */));
@@ -38,21 +40,19 @@ public class CandidateCtrl extends Controller{
 		candidate = newInterviewCandidateForm.get().candidate;
 		candidate.interview = newInterviewCandidateForm.get();
 		candidate.save();
+
+		System.out.println("Candidate "+candidate.id+" saved");
+
+		
+		
 		newInterviewCandidateForm.get().save();
 		
 		flash("success", "Candidate " + newInterviewCandidateForm.get() + " has been created");
-/* 		Candidate candidate = Candidate.find
-						.fetch("role","name")
-						.where()
-						.like("name",newCandidateForm.get().name)
-						.eq("id",newCandidateForm.get().id)
-						.findUnique(); */
-		//if (candidate.numQuestions < )				
+	
 
 		return redirect(routes.InterviewCtrl.getRandomQuestions(newInterviewCandidateForm.get().id));
 	}
-
-	//@With(CheckManager.class)
+	
 	public Result deleteCandidate(Long id) {
 		Interview intDelete = Interview.find
 		.where()
@@ -82,21 +82,6 @@ public class CandidateCtrl extends Controller{
 		Form<Candidate> editCandidateForm = Form.form(Candidate.class).fill(Candidate.find.byId(id));
 		return ok (editCandidate.render(id, editCandidateForm, Category.findAllCategories()/* , User.getLoggedIn(session().get("email")) */));
 	}	
-
-	public Result editCandidateSubmit(Long id) {
-		Form<Candidate> editCandidateForm = Form.form(Candidate.class).bindFromRequest();
-		
-		if(editCandidateForm.hasErrors()) {
-			return badRequest(editCandidate.render(id, editCandidateForm, Category.findAllCategories()/* , User.getLoggedIn(session().get("email")) */));
-		}
-		Candidate c= editCandidateForm.get();
-		c.id = id;
-		c.update();
-		flash("success", "Candidate " + editCandidateForm.get() + " has been updated");
-	return redirect("/listCandidates");
-	}
-	
-	
 
 	
 

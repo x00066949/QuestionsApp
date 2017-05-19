@@ -30,7 +30,7 @@ public class Question extends Model {
     @Constraints.Required
     public String question;
 
-    
+    public int difficulty;
 
     // Default constructor
     public  Question() {

@@ -41,6 +41,8 @@ public class InterviewCtrl extends Controller{
 	
 	//method to get 5 random questions from a interview's category
 	public Result getRandomQuestions(Long interviewId){
+		System.out.println("Getting Random Questions");
+		
 		List<QuestionRate> randomQuestions = new ArrayList<QuestionRate>();
 		//find interview with same id as passed in the parameter
 		interview = Interview.find.byId(interviewId);
@@ -71,8 +73,9 @@ public class InterviewCtrl extends Controller{
 				
 				
 				Form<QuestionRate> editQuestionRateForm = Form.form(QuestionRate.class);
+				
+				System.out.println("Displaying first Question");
 
-				//render page with pre filled form
 				return ok(candidateQuestions.render(editQuestionRateForm, interview.questions.get(questionIndex),interview, Category.findAllCategories(), questionIndex+1));
 			}else {
 				Ebean.delete(interview);
@@ -91,7 +94,7 @@ public class InterviewCtrl extends Controller{
 	
 
 	public Result interviewSubmit() {
-		
+
 			
 		Form<QuestionRate> interviewForm = Form.form(QuestionRate.class).bindFromRequest();
 		QuestionRate c= interviewForm.get();
@@ -100,14 +103,20 @@ public class InterviewCtrl extends Controller{
 		//int current = questionIndex;
 		if(c.rate != null){
 			c.save();
+			System.out.println("saved question "+questionIndex);
 
 			
 			interviewRate = interviewRate+c.rate;
+			
+			
+			
+			
 			questionIndex++;
 		}
 		if(questionIndex < interview.numQuestions){
 			
-			
+			System.out.println("Displaying Question "+ questionIndex+1);
+
 			return ok(candidateQuestions.render(interviewForm, interview.questions.get(questionIndex), interview, Category.findAllCategories(), questionIndex+1));
 		}else{
 			
@@ -115,15 +124,17 @@ public class InterviewCtrl extends Controller{
 			//interview.interviewDate = new Date();
 			interview.save();
 			
-			//reset interview rate back to zero so a fresh rate is created for a new interview
-			//interviewRate = 0;
-			//questionIndex = 0;
+			System.out.println("Interview saved");
+
 			return ok(index.render(Category.findAllCategories(), "Interview Completed, "+interview.candidate.name+"'s score is "+interview.interviewRate.toString()));
 		}
 		
 	}
 	
 	public Result groupInterviews(String date, Long cat){
+		
+		System.out.println("List interviews");
+
 		
 		Ebean.delete(Interview.find.where().eq("candidate_id",null).findList());
 

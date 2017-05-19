@@ -1,64 +1,20 @@
 package controllers;
 
-//
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static play.mvc.Http.Status.BAD_REQUEST;
-import static play.mvc.Http.Status.NOT_FOUND;
-import static play.mvc.Http.Status.OK;
-//import static play.test.Helpers.callAction;
-import static play.test.Helpers.contentAsString;
-import static play.test.Helpers.fakeApplication;
-import static play.test.Helpers.fakeRequest;
-import static play.test.Helpers.inMemoryDatabase;
-import static play.test.Helpers.start;
-import static play.test.Helpers.status;
-import static play.test.Helpers.stop;
-import java.util.HashMap;
-import java.util.Map;
-
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import play.mvc.Result;
-import play.test.FakeApplication;
-import play.test.FakeRequest;
-//
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import com.avaje.ebean.*;
-import java.util.*;
-import com.fasterxml.jackson.databind.JsonNode;
 import org.junit.*;
-import play.db.Database;
-import play.db.Databases;
-import play.db.evolutions.*;
-import java.sql.*;
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.ImmutableMap.*;
+import play.test.*;
+import play.mvc.*;
+import play.db.*;
+import play.twirl.api.*;
+
 import java.util.*;
+import java.sql.*;
 import javax.persistence.*;
 
-
-import play.mvc.*;
-import play.test.*;
-//import play.test.Helpers.callAction;
-import play.data.DynamicForm;
-import static play.mvc.Http.Status.*;
-import play.data.validation.ValidationError;
-import play.data.validation.Constraints.RequiredValidator;
-import play.i18n.Lang;
-import play.libs.F;
-import play.libs.F.*;
-import play.twirl.api.Content;
+import com.avaje.ebean.*;
+import com.fasterxml.jackson.databind.JsonNode;
 
 import static play.test.Helpers.*;
 import static org.junit.Assert.*;
-
 
 // Import models
 import models.*;
@@ -158,7 +114,7 @@ public class ApplicationTest {
 
 		Set<Category> categories = Category.findAllCategories();
 		assertEquals("text/html", contentType(html));
-		System.out.println(contentAsString(html));
+		//System.out.println(contentAsString(html));
         assertTrue(contentAsString(html).contains("A test Question"));
 
 		
@@ -178,7 +134,7 @@ public class ApplicationTest {
 
 	} 
 	
-	@Test
+/* 	@Test
 	public void testAddCandidate() {
 		System.out.println("Testing AddCandidate controller");
 
@@ -191,5 +147,5 @@ public class ApplicationTest {
 
 	
 	}
-
+ */
 }

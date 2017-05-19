@@ -16,7 +16,7 @@ GET		/newCandidate								controllers.CandidateCtrl.addCandidate
 POST	/addCandidateSubmit							controllers.CandidateCtrl.addCandidateSubmit()
 
 #Delete Candidate
-GET		/deleteCandidate/:id							controllers.CandidateCtrl.deleteCandidate(id:Long)
+GET		/deleteCandidate/:id						controllers.CandidateCtrl.deleteCandidate(id:Long)
 
 
 #Get random questions for a candidate
@@ -26,8 +26,11 @@ POST	/interview									controllers.InterviewCtrl.interviewSubmit()
 
 #Group interviews by date
 
-GET		/:date/:cat										controllers.InterviewCtrl.groupInterviews(date: String, cat: Long)
+GET		/:date/:cat									controllers.InterviewCtrl.groupInterviews(date: String, cat: Long)
 
+#Graph
+
+GET		/graph										controllers.Application.showGraph()
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               				controllers.Assets.at(path="/public", file)

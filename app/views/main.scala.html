@@ -1,4 +1,4 @@
-@(title: String, categories: Set[models.Category])(content: Html)
+@(title: String)(content: Html)
 
 <!DOCTYPE html>
 <html lang="en">
@@ -95,18 +95,20 @@
  </div>  
  <!-- /.container -->
  
- 
+
 	
+    <!-- Bootstrap Core JavaScript -->
  <!-- jQuery -->
     <script src="@routes.Assets.versioned("javascripts/jquery.js")"></script>
 
-    <!-- Bootstrap Core JavaScript -->
     <script src="@routes.Assets.versioned("javascripts/bootstrap.min.js")"></script>	
     <script src="@routes.Assets.versioned("javascripts/bootstrap.js")"></script>	
 	
-	<script src="@routes.Assets.versioned("javascripts/hello.js")" ></script>
-	
-	
+	<script src="@routes.Assets.versioned("javascripts/hello.js")"></script>
+	<script src="@routes.Assets.versioned("javascripts/amcharts/amcharts.js")" type="text/javascript"></script>
+	<script src="@routes.Assets.versioned("javascripts/amcharts/themes/")"></script>
+	<script src="@routes.Assets.versioned("javascripts/amcharts/serial.js")" type="text/javascript"></script>
+	<script src="@routes.Assets.versioned("javascripts/amcharts/pie.js")" type="text/javascript"></script>
 
 
 

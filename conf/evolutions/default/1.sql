@@ -30,6 +30,7 @@ create table question (
   id                        bigint not null,
   category_id               bigint,
   question                  varchar(255),
+  difficulty                integer,
   constraint pk_question primary key (id))
 ;
 

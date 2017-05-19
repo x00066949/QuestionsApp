@@ -1,0 +1,50 @@
+@(categories: List[models.Category])
+
+@main("Graphs"){
+
+<div id="test-chart"></div>
+<div id="test-legend"></div>
+
+}
+<script type="text/javascript">
+   // code to handle the graph drawing goes here
+	   AmCharts.ready(function(){
+	   // code goes here
+	   
+	   var chart = AmCharts.makeChart("test-chart", {
+                    "type": "pie", // type of the graph
+                    "theme": "dark", // the theme
+                    "legend": { // settings for legend
+                         "markerType": "circle",
+                         "position": "right",
+                         "marginRight": 80,
+                         "autoMargins": false
+                    },
+                    "dataProvider": [
+						
+						@for(c <- categories){
+							{
+							 "country": "@c.name",
+							 "litres": @c.countQuestions()
+							},
+						}
+					], 
+					  
+                    "valueField": "litres", // field name to get the value from
+                    "titleField": "country", // field name to get the title from
+					"listeners": [{
+						"event": "init",
+						"method": function(event) {
+						  var chart = event.chart;
+						  for(var x = 0; x < chart.dataProvider.length; x++) {
+							    var graph = chart.dataProvider[x];
+							if (chart.dataProvider.valueField == 0)
+							  graph.visibleInLegend = false;
+						  
+						}
+						}
+					  }]
+                });
+	   
+	})
+</script>

@@ -42,8 +42,8 @@ public class QuestionRate extends Model {
 
 
 
-		//Find all Candidates in the database
-		public static List<QuestionRate> findAll() {
-			return QuestionRate.find.all();
-		}
+	//Find all Candidates in the database
+	public static List<QuestionRate> findAll() {
+		return QuestionRate.find.all();
+	}
 }

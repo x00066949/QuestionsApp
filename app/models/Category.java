@@ -57,7 +57,7 @@ public class Category extends Model {
         for(Category c: Category.find.orderBy("name").findList()) {
             options.put(c.id.toString(), c.name);
         }
-		options.put("all", "ALL QUESTIONS");
+		//options.put("all", "ALL QUESTIONS");
         return options;
     }
 	
@@ -74,6 +74,12 @@ public class Category extends Model {
 	
 	public static List<Category> findAll() {
 		return Category.find.all();
+	}
+	
+	public int countQuestions(){
+		
+		return questions.size();
+	
 	}
 	
 /* 	public static Category getCategory(String name) {
