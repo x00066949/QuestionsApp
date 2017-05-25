@@ -16,7 +16,7 @@ import java.util.*;
 import models.*;
 //import controllers.security.*;
 
-//@Security.Authenticated(Secured.class)
+@Security.Authenticated(Secured.class)
 public class CandidateCtrl extends Controller{
 
 
@@ -25,7 +25,7 @@ public class CandidateCtrl extends Controller{
 
 		Form<Interview> addInterviewCandidateForm = Form.form(Interview.class);
 
-		return ok(newCandidate.render(addInterviewCandidateForm, Category.findAllCategories() /* , User.getLoggedIn(session().get("email")) */));
+		return ok(newCandidate.render(addInterviewCandidateForm, Interviewer.getLoggedIn(session().get("username"))));
 	}
 	
 	
@@ -33,7 +33,7 @@ public class CandidateCtrl extends Controller{
 		Form<Interview> newInterviewCandidateForm = Form.form(Interview.class).bindFromRequest();
 
 		if (newInterviewCandidateForm.hasErrors()){
-			return badRequest(newCandidate.render(newInterviewCandidateForm, Category.findAllCategories()/* , User.getLoggedIn(session().get("email")) */));
+			return badRequest(newCandidate.render(newInterviewCandidateForm, Interviewer.getLoggedIn(session().get("username"))));
 		}
 		
 		Candidate candidate = new Candidate();
@@ -54,6 +54,8 @@ public class CandidateCtrl extends Controller{
 	}
 	
 	public Result deleteCandidate(Long id) {
+		
+		//Delete interview associated with candidate
 		Interview intDelete = Interview.find
 		.where()
 		.eq("candidate_id",id)
@@ -72,25 +74,14 @@ public class CandidateCtrl extends Controller{
 		intDelete.delete();
 		
 		//then delete candidate
-		Candidate.find.ref(id).delete();
+		User.find.ref(id).delete();
 
 		flash("success", "Candidate has been deleted");
 		return redirect("/");
 		}
 		
-	public Result editCandidate(Long id){
-		Form<Candidate> editCandidateForm = Form.form(Candidate.class).fill(Candidate.find.byId(id));
-		return ok (editCandidate.render(id, editCandidateForm, Category.findAllCategories()/* , User.getLoggedIn(session().get("email")) */));
-	}	
 
 	
-
-	public Result listCandidate() {
-		
-		List<Candidate> candidates = Candidate.findAll();
-		return ok(listCandidates.render(candidates, Category.findAllCategories()/* , User.getLoggedIn(session().get("email")) */));
-		
-    }
 
 
 }

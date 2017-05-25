@@ -82,6 +82,17 @@ public class Category extends Model {
 	
 	}
 	
+	public int countDifficult(){
+		int count = 0;
+		for(Question q : questions){
+			
+			if (q.isDifficult){
+				count++;
+			}
+		}
+		return count;
+	}
+	
 /* 	public static Category getCategory(String name) {
         if (id == null)
                 return null;

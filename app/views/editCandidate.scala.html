@@ -1,8 +1,8 @@
-@(id: Long,addCandidateForm: Form[models.Candidate], categories: Set[models.Category])
+@(id: Long,addCandidateForm: Form[models.Candidate], user: models.User)
 
 @import helper._
 
-@main("Edit Candidate") {
+@main("Edit Candidate", user) {
 
 	<div class="row">
 

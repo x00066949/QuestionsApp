@@ -33,12 +33,13 @@ import javax.activation.MimetypesFileTypeMap;
 // Import models
 import models.*;
 
+@Security.Authenticated(Secured.class)
 public class QuestionCtrl extends Controller{
 
 	public Result uploadForm(){
 		System.out.println("Visit upload page");
 
-        return ok(upload.render(Category.findAllCategories()));
+        return ok(upload.render(Interviewer.getLoggedIn(session().get("username"))));
 
 	}
 	
@@ -134,7 +135,7 @@ public class QuestionCtrl extends Controller{
 					
 					
 					Ebean.save(questions);
-						
+				
 				}
 				
 
@@ -143,7 +144,7 @@ public class QuestionCtrl extends Controller{
 				f.printStackTrace();
 			}
 			
-			return ok(index.render(Category.findAllCategories(),"File uploaded"));
+			return ok(index.render("File uploaded", Interviewer.getLoggedIn(session().get("username"))));
 		} else {
 			//flash("error", "Missing file");
 			return badRequest();
@@ -183,7 +184,7 @@ public class QuestionCtrl extends Controller{
 	public Result getCategories(String catIn){
 		
 		
-		return ok(listQuestions.render(Category.findAllCategories(), catIn));
+		return ok(listQuestions.render(Category.findAllCategories(), catIn, Interviewer.getLoggedIn(session().get("username"))));
 
 	}
 	

@@ -1,8 +1,8 @@
-@(InterviewForm: Form[models.QuestionRate],interviewQuestion: models.QuestionRate, interview: models.Interview, categories: Set[models.Category], questionIndex: Integer)
+@(InterviewForm: Form[models.QuestionRate],interviewQuestion: models.QuestionRate, interview: models.Interview, questionIndex: Integer, user: models.User)
 
 @import helper._
 
-@main("Candidate Questions") {
+@main("Candidate Questions", user) {
 
 	<div class="row">
 		@if(interview != null && interviewQuestion != null){

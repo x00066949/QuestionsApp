@@ -30,7 +30,18 @@ public class Question extends Model {
     @Constraints.Required
     public String question;
 
-    public int difficulty;
+	//for questions statistics
+	
+    public int points=0;
+	
+	//how many times the question has been asked
+	public int repeats=0; 
+	
+	//difficulty level
+	public boolean isDifficult = false;
+	
+	
+	
 
     // Default constructor
     public  Question() {
@@ -44,12 +55,13 @@ public class Question extends Model {
         
     }
 	
-		//Generic query helper for Question entity id Long
+	//Generic query helper for Question entity id Long
     public static Finder<Long,Question> find = new Finder<Long,Question>(Long.class, Question.class);
 
-		//Find all Questions in the database
-		public static List<Question> findAll() {
-			return Question.find.all();
-		}
+	//Find all Questions in the database
+	public static List<Question> findAll() {
+		return Question.find.all();
+	}
 	
+
 }

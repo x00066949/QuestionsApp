@@ -1,8 +1,8 @@
-@(candidates: List[models.Candidate], categories: Set[models.Category])
+@(candidates: List[models.Candidate], user: models.User )
 
 @import helper._
 
-@main("List Candidate"){
+@main("List Candidate", user){
 
 	<div class="row">
 

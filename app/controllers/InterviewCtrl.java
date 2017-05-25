@@ -9,6 +9,7 @@ import play.mvc.Http.Context;
 import views.html.*;
 
 import com.avaje.ebean.Ebean;
+import com.avaje.ebean.Expr;
 
 // Import required classes
 import java.util.*;
@@ -29,7 +30,7 @@ import java.io.*;
 import models.*;
 //import controllers.security.*;
 
-//@Security.Authenticated(Secured.class)
+@Security.Authenticated(Secured.class)
 public class InterviewCtrl extends Controller{
 	
 	
@@ -76,11 +77,11 @@ public class InterviewCtrl extends Controller{
 				
 				System.out.println("Displaying first Question");
 
-				return ok(candidateQuestions.render(editQuestionRateForm, interview.questions.get(questionIndex),interview, Category.findAllCategories(), questionIndex+1));
+				return ok(candidateQuestions.render(editQuestionRateForm, interview.questions.get(questionIndex),interview, questionIndex+1, Interviewer.getLoggedIn(session().get("username"))));
 			}else {
 				Ebean.delete(interview);
-				return badRequest(index.render(Category.findAllCategories(), "Error: You have requested "+interview.numQuestions
-									+" questions, please try again, making sure to pick a number between 1 and  "+qList.size()+" for the role of  "+interview.role.name));
+				return badRequest(index.render("Error: You have requested "+interview.numQuestions
+									+" questions, please try again, making sure to pick a number between 1 and  "+qList.size()+" for the role of  "+interview.role.name, Interviewer.getLoggedIn(session().get("username"))));
 
 			}
 
@@ -88,21 +89,39 @@ public class InterviewCtrl extends Controller{
 		}
 		else{
 			flash("Error interview does not exist");
-            return badRequest(index.render(Category.findAllCategories(), "Error: interview does not exist"));
+            return badRequest(index.render("Error: interview does not exist", Interviewer.getLoggedIn(session().get("username"))));
 		}
 	}
 	
 
 	public Result interviewSubmit() {
 
-			
+
 		Form<QuestionRate> interviewForm = Form.form(QuestionRate.class).bindFromRequest();
-		QuestionRate c= interviewForm.get();
 		
 		
 		//int current = questionIndex;
-		if(c.rate != null){
-			c.save();
+		if(interviewForm.get().rate != null){
+
+
+			//save interview question
+			interviewForm.get().save();
+			
+			QuestionRate c = Ebean.find(QuestionRate.class,interviewForm.get().id);
+			
+			
+			//Add statistics infor to question
+			
+			//increase the repeats
+			c.question.repeats++;
+			
+			//increase the points for the question
+			//this is relative to how many times the question has been asked
+			c.question.points = (c.question.points + c.rate)/c.question.repeats;
+			
+			setDifficulty(c.question);
+			
+			c.question.save();
 			System.out.println("saved question "+questionIndex);
 
 			
@@ -117,7 +136,7 @@ public class InterviewCtrl extends Controller{
 			
 			System.out.println("Displaying Question "+ questionIndex+1);
 
-			return ok(candidateQuestions.render(interviewForm, interview.questions.get(questionIndex), interview, Category.findAllCategories(), questionIndex+1));
+			return ok(candidateQuestions.render(interviewForm, interview.questions.get(questionIndex), interview, questionIndex+1, Interviewer.getLoggedIn(session().get("username"))));
 		}else{
 			
 			interview.interviewRate = interviewRate;
@@ -126,8 +145,26 @@ public class InterviewCtrl extends Controller{
 			
 			System.out.println("Interview saved");
 
-			return ok(index.render(Category.findAllCategories(), "Interview Completed, "+interview.candidate.name+"'s score is "+interview.interviewRate.toString()));
+			return ok(index.render("Interview Completed, "+interview.candidate.name+"'s score is "+interview.interviewRate.toString(), Interviewer.getLoggedIn(session().get("username"))));
+		} 
+		
+	}
+	
+	//Check if Question difficulty needs to be adjusted
+	public void setDifficulty(Question q){
+		
+		//Category c = category;
+		int maxPoints = (q.category.countQuestions()*5); //multiply by 5 because that is the max points you can get per question
+		
+		//the 1owest 1/3 points are the most difficult in category
+		int levelMarker = (maxPoints/3);
+		
+		if (q.points > 0 && q.points <= levelMarker){
+			//difficult level questions
+			q.isDifficult = true;
 		}
+		
+		
 		
 	}
 	
@@ -136,7 +173,7 @@ public class InterviewCtrl extends Controller{
 		System.out.println("List interviews");
 
 		
-		Ebean.delete(Interview.find.where().eq("candidate_id",null).findList());
+		Ebean.delete(Interview.find.where().or(Expr.eq("candidate_id",null),Expr.eq("interviewRate", null)).findList());
 
 		List<Interview> interviewList = Interview.findAll();
 		Set<String> dates = new TreeSet<>();
@@ -193,7 +230,7 @@ public class InterviewCtrl extends Controller{
 		
 		
 		
-		return ok(interviews.render(Category.findAllCategories(), interviewList, dates,date,role));
+		return ok(interviews.render(Category.findAllCategories(), interviewList, dates,date,role, Interviewer.getLoggedIn(session().get("username"))));
 	}
 
 	

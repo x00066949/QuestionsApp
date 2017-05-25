@@ -1,8 +1,8 @@
-@(categories: Set[models.Category])
+@(user: models.User)
 
 @import helper._
 
-@main("Upload Questions"){
+@main("Upload Questions", user){
 
 	<div class="col-md-8">
 		@form(action = routes.QuestionCtrl.upload, 'class -> "form-horizontal", 'enctype -> "multipart/form-data") {

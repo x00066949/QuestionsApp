@@ -3,12 +3,6 @@
 
 # --- !Ups
 
-create table candidate (
-  id                        bigint not null,
-  name                      varchar(255),
-  constraint pk_candidate primary key (id))
-;
-
 create table category (
   id                        bigint not null,
   name                      varchar(255),
@@ -30,7 +24,9 @@ create table question (
   id                        bigint not null,
   category_id               bigint,
   question                  varchar(255),
-  difficulty                integer,
+  points                    integer,
+  repeats                   integer,
+  is_difficult              boolean,
   constraint pk_question primary key (id))
 ;
 
@@ -43,7 +39,14 @@ create table question_rate (
   constraint pk_question_rate primary key (id))
 ;
 
-create sequence candidate_seq;
+create table user (
+  usertype                  varchar(31) not null,
+  id                        bigint not null,
+  name                      varchar(255),
+  username                  varchar(255),
+  password                  varchar(255),
+  constraint pk_user primary key (id))
+;
 
 create sequence category_seq;
 
@@ -53,7 +56,9 @@ create sequence question_seq;
 
 create sequence question_rate_seq;
 
-alter table interview add constraint fk_interview_candidate_1 foreign key (candidate_id) references candidate (id) on delete restrict on update restrict;
+create sequence user_seq;
+
+alter table interview add constraint fk_interview_candidate_1 foreign key (candidate_id) references user (id) on delete restrict on update restrict;
 create index ix_interview_candidate_1 on interview (candidate_id);
 alter table interview add constraint fk_interview_role_2 foreign key (role_id) references category (id) on delete restrict on update restrict;
 create index ix_interview_role_2 on interview (role_id);
@@ -70,8 +75,6 @@ create index ix_question_rate_question_5 on question_rate (question_id);
 
 SET REFERENTIAL_INTEGRITY FALSE;
 
-drop table if exists candidate;
-
 drop table if exists category;
 
 drop table if exists interview;
@@ -80,9 +83,9 @@ drop table if exists question;
 
 drop table if exists question_rate;
 
-SET REFERENTIAL_INTEGRITY TRUE;
+drop table if exists user;
 
-drop sequence if exists candidate_seq;
+SET REFERENTIAL_INTEGRITY TRUE;
 
 drop sequence if exists category_seq;
 
@@ -91,4 +94,6 @@ drop sequence if exists interview_seq;
 drop sequence if exists question_seq;
 
 drop sequence if exists question_rate_seq;
+
+drop sequence if exists user_seq;
 

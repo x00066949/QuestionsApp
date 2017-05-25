@@ -10,14 +10,10 @@ import com.avaje.ebean.*;
 
 
 @Entity
-public class Candidate extends Model {
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorValue("candidate")
+public class Candidate extends User {
 
-	@Id
-	public Long id;
-	
-	@Constraints.Required
-	public String name;
-	
 
 	public Interview interview;
 	
@@ -26,17 +22,19 @@ public class Candidate extends Model {
 	}
 	
 	public  Candidate(Long id, String name, Interview interview){
-        this.id = id;
-        this.name = name;
+
+		super(id,name);
         this.interview = interview;
 
     }
 
 	
-	public static Finder<Long,Candidate> find = new Finder<Long,Candidate>(Long.class, Candidate.class);
+	/* public static Finder<Long,Candidate> find = new Finder<Long,Candidate>(Long.class, Candidate.class);
 
 	//Find all Candidates in the database
 	public static List<Candidate> findAll() {
 		return Candidate.find.all();
 	}
+	 */
+	
 }

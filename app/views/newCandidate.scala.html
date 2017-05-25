@@ -1,8 +1,8 @@
-@(addCandidateForm: Form[models.Interview], categories: Set[models.Category])
+@(addCandidateForm: Form[models.Interview], user: models.User)
 
 @import helper._
 
-@main("New Candidate"){
+@main("New Candidate", user){
 
 
 	<div class="col-md-8">

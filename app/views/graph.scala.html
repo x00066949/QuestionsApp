@@ -1,6 +1,6 @@
-@(categories: List[models.Category])
+@(categories: List[models.Category], user: models.User)
 
-@main("Graphs"){
+@main("Graphs", user){
 
 <div id="test-chart"></div>
 <div id="test-legend"></div>
@@ -12,38 +12,49 @@
 	   // code goes here
 	   
 	   var chart = AmCharts.makeChart("test-chart", {
-                    "type": "pie", // type of the graph
+                    "type": "serial", // type of the graph
                     "theme": "dark", // the theme
                     "legend": { // settings for legend
-                         "markerType": "circle",
-                         "position": "right",
-                         "marginRight": 80,
-                         "autoMargins": false
+                        "useGraphSettings": true,
+						"markerSize":12,
+						"valueWidth":0,
+						"verticalGap":0
                     },
                     "dataProvider": [
 						
 						@for(c <- categories){
 							{
-							 "country": "@c.name",
-							 "litres": @c.countQuestions()
+							 "Category": "@c.name",
+							 "Number of questions": @c.countQuestions(),
+							 "Difficult": @c.countDifficult()
 							},
 						}
 					], 
-					  
-                    "valueField": "litres", // field name to get the value from
-                    "titleField": "country", // field name to get the title from
-					"listeners": [{
-						"event": "init",
-						"method": function(event) {
-						  var chart = event.chart;
-						  for(var x = 0; x < chart.dataProvider.length; x++) {
-							    var graph = chart.dataProvider[x];
-							if (chart.dataProvider.valueField == 0)
-							  graph.visibleInLegend = false;
-						  
-						}
-						}
-					  }]
+					
+					"graphs": [{
+					"balloonText": "<span style='font-size:13px;'>[[title]] in [[category]]:<b>[[value]]</b></span>",
+					"title": "Category",
+					"type": "column",
+					"fillAlphas": 0.8,
+
+					"valueField": "Number of questions"
+				}, {
+					"balloonText": "<span style='font-size:13px;'>[[title]] in [[category]]:<b>[[value]]</b></span>",
+					"bullet": "round",
+					"bulletBorderAlpha": 1,
+					"bulletColor": "#FFFFFF",
+					"useLineColorForBulletBorder": true,
+					"fillAlphas": 0,
+					"lineThickness": 2,
+					"lineAlpha": 1,
+					"bulletSize": 7,
+					"title": "Difficult",
+					"valueField": "Difficult"
+				}],
+					
+                    
+                    "categoryField": "Category" // field name to get the title from
+
                 });
 	   
 	})

@@ -1,10 +1,10 @@
-@(categories: Set[models.Category], interviewList: List[models.Interview], dates: Set[String], currentDate: String, currentRole: String)
+@(categories: Set[models.Category], interviewList: List[models.Interview], dates: Set[String], currentDate: String, currentRole: String, user: models.User)
 
 @import play.api.Play.resource
 @import play.api.Play.current
 @import models._
 
-@main("Interviews") {
+@main("Interviews", user) {
 
 
 
@@ -92,9 +92,9 @@
 							<!-- The Modal -->
 							<div id="myModal" class="modal myModal">
 
-							  <!-- Modal content -->
-							  <div class="modal-content">
-								<span class="close" id="close">&times;</span>
+								<!-- Modal content -->
+								<div class="modal-content">
+									<span class="close" id="close">&times;</span>
 								
 									@for(q <- i.questions){
 										<hr>
@@ -103,7 +103,7 @@
 										<p>@q.comments</p>
 										
 									}
-							  </div>
+								</div>
 							</div>
 						</td>
 
