@@ -173,7 +173,8 @@ public class InterviewCtrl extends Controller{
 		System.out.println("List interviews");
 
 		
-		Ebean.delete(Interview.find.where().or(Expr.eq("candidate_id",null),Expr.eq("interviewRate", null)).findList());
+		Ebean.delete(Interview.find.where().eq("candidate_id",null).findList());
+		//Ebean.delete(Interview.find.where().eq("interviewrate",null).findList());
 
 		List<Interview> interviewList = Interview.findAll();
 		Set<String> dates = new TreeSet<>();

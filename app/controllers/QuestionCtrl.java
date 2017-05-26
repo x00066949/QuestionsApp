@@ -69,6 +69,9 @@ public class QuestionCtrl extends Controller{
 			String contentType = questionsFile.getContentType();
 			File file = questionsFile.getFile();
 			
+			System.out.println("File name"+fileName);
+			System.out.println("File format"+contentType);
+
 			
 			try{
 				Multimap<String, String> mappedQuestions = ArrayListMultimap.create();
