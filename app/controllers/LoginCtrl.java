@@ -51,5 +51,32 @@ public class LoginCtrl extends Controller {
 		flash("success", "You've been logged out");
 		return redirect(routes.LoginCtrl.login());
 	}
+	
+	public Result addInterviewer(){
+		System.out.println("Creating interviewer");
+
+		Form<Interviewer> addInterviewerForm = Form.form(Interviewer.class);
+
+		return ok(register.render(addInterviewerForm, Interviewer.getLoggedIn(session().get("username"))));
+	}
+	
+	public Result addInterviewerSubmit(){
+		Form<Interviewer> newInterviewerForm = Form.form(Interviewer.class).bindFromRequest();
+
+		if (newInterviewerForm.hasErrors()){
+			return badRequest(register.render(newInterviewerForm, Interviewer.getLoggedIn(session().get("username"))));
+		}
+		
+		
+		newInterviewerForm.get().save();
+
+		System.out.println("Interviewer "+newInterviewerForm.get().name+" saved");
+
+	
+		flash("success", "Interviewer " + newInterviewerForm.get() + " has been created");
+	
+
+		return redirect(routes.Application.index());
+	}
 
 }

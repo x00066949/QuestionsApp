@@ -29,12 +29,12 @@ public class Candidate extends User {
     }
 
 	
-	/* public static Finder<Long,Candidate> find = new Finder<Long,Candidate>(Long.class, Candidate.class);
+	public static Finder<Long,Candidate> find = new Finder<Long,Candidate>(Long.class, Candidate.class);
 
 	//Find all Candidates in the database
-	public static List<Candidate> findAll() {
-		return Candidate.find.all();
+	public static List<User> findAll() {
+		return User.find.where().eq("usertype","candidate").findList();
 	}
-	 */
+	
 	
 }
