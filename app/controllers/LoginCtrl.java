@@ -6,11 +6,16 @@ import play.data.*;
 import play.data.Form.*;
 import play.mvc.Http.Context;
 
+
 import views.html.*;
 
 // Import required classes
-import java.util.ArrayList;
+import java.util.*;
 import java.util.List;
+import java.io.*;
+
+
+
 
 // Import models
 import models.*;
@@ -67,8 +72,14 @@ public class LoginCtrl extends Controller {
 			return badRequest(register.render(newInterviewerForm, Interviewer.getLoggedIn(session().get("username"))));
 		}
 		
-		
-		newInterviewerForm.get().save();
+       
+		Interviewer anInterviewer = new Interviewer();
+		anInterviewer.name = newInterviewerForm.get().name;
+		anInterviewer.username = newInterviewerForm.get().username;
+		anInterviewer.password = Interviewer.encryptPassword(newInterviewerForm.get().password);
+
+		System.out.println("Interviewer name = "+newInterviewerForm.get().name);
+		anInterviewer.save();
 
 		System.out.println("Interviewer "+newInterviewerForm.get().name+" saved");
 
@@ -78,5 +89,7 @@ public class LoginCtrl extends Controller {
 
 		return redirect(routes.Application.index());
 	}
+	
+	
 
 }

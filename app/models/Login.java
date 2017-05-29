@@ -9,8 +9,8 @@ public class Login {
 	// after form based on a Login object has been submitted
 	public String validate() {
 		
-		// Call the static authenticate method in User
-		if (Interviewer.authenticate(username, password) == null) {
+		// Call the static authenticate method in Interviewer
+		if (Interviewer.authenticate(username, Interviewer.encryptPassword(password)) == null) {
 		  return "Invalid user or password";
 		}
 		return null;
