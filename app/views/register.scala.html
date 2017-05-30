@@ -14,9 +14,11 @@
 		<div class="form-group">
 			<input type="text" name="username" class="form-control input-xs" placeholder="Username" value="@formInterviewer("username").value">
 		</div>
-		
+
 		<div class="form-group">
-			<p>Password must meet the following requirements: at least 8 characters, 1 uppercaser letter, 1 lowercase letter, 1 number, 1 special character </p>
+			<div id="myToolTip" class="tooltip">Password Requirements
+				<span class="tooltiptext">Password must meet the following requirements: at least 8 characters, 1 uppercaser letter, 1 lowercase letter, 1 number, 1 special character</span>
+			</div>
 			<input type="password" name="password" class="form-control input-xs" placeholder="Password">
 		</div>
 
