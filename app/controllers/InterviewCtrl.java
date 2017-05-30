@@ -42,7 +42,7 @@ public class InterviewCtrl extends Controller{
 	
 	//method to get 5 random questions from a interview's category
 	public Result getRandomQuestions(Long interviewId){
-		System.out.println("Getting Random Questions");
+		System.out.println(session().get("username")+" Getting Random Questions");
 		
 		List<QuestionRate> randomQuestions = new ArrayList<QuestionRate>();
 		//find interview with same id as passed in the parameter
@@ -75,7 +75,7 @@ public class InterviewCtrl extends Controller{
 				
 				Form<QuestionRate> editQuestionRateForm = Form.form(QuestionRate.class);
 				
-				System.out.println("Displaying first Question");
+				System.out.println(session().get("username")+" Displaying first Question");
 
 				return ok(candidateQuestions.render(editQuestionRateForm, interview.questions.get(questionIndex),interview, questionIndex+1, Interviewer.getLoggedIn(session().get("username"))));
 			}else {
@@ -122,7 +122,7 @@ public class InterviewCtrl extends Controller{
 			setDifficulty(c.question);
 			
 			c.question.save();
-			System.out.println("saved question "+questionIndex);
+			System.out.println(session().get("username")+" saved question "+questionIndex);
 
 			
 			interviewRate = interviewRate+c.rate;
@@ -134,7 +134,7 @@ public class InterviewCtrl extends Controller{
 		}
 		if(questionIndex < interview.numQuestions){
 			
-			System.out.println("Displaying Question "+ questionIndex+1);
+			System.out.println(session().get("username")+ " Displaying Question "+ questionIndex+1);
 
 			return ok(candidateQuestions.render(interviewForm, interview.questions.get(questionIndex), interview, questionIndex+1, Interviewer.getLoggedIn(session().get("username"))));
 		}else{
@@ -143,7 +143,7 @@ public class InterviewCtrl extends Controller{
 			//interview.interviewDate = new Date();
 			interview.save();
 			
-			System.out.println("Interview saved");
+			System.out.println(session().get("username")+" Interview saved");
 
 			return ok(index.render("Interview Completed, "+interview.candidate.name+"'s score is "+interview.interviewRate.toString(), Interviewer.getLoggedIn(session().get("username"))));
 		} 
@@ -158,10 +158,19 @@ public class InterviewCtrl extends Controller{
 		
 		//the 1owest 1/3 points are the most difficult in category
 		int levelMarker = (maxPoints/3);
-		
-		if (q.points > 0 && q.points <= levelMarker){
+		if (q.points > maxPoints){
+			q.points = maxPoints;
+			q.isDifficult = false;
+
+		}		
+		if (q.points > 0 && q.points <= levelMarker ){
 			//difficult level questions
 			q.isDifficult = true;
+		}
+
+		if (q.points > levelMarker){
+			q.isDifficult = false;
+
 		}
 		
 		
@@ -170,7 +179,7 @@ public class InterviewCtrl extends Controller{
 	
 	public Result groupInterviews(String date, Long cat){
 		
-		System.out.println("List interviews");
+		System.out.println(session().get("username")+" List interviews");
 
 		
 		Ebean.delete(Interview.find.where().eq("candidate_id",null).findList());

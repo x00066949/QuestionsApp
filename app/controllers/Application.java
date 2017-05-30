@@ -13,14 +13,14 @@ public class Application extends Controller {
 
 	@Security.Authenticated(Secured.class)
     public Result index() {
-		System.out.println("Index page");
+		System.out.println(session().get("username")+" Index page");
 
         return ok(index.render("Home Page", Interviewer.getLoggedIn(session().get("username"))));
     }
 	
 	@Security.Authenticated(Secured.class)
 	public Result showGraph() {
-		System.out.println("Graph page");
+		System.out.println(session().get("username")+" Graph page");
 
         return ok(graph.render(Category.findAll(), Interviewer.getLoggedIn(session().get("username"))));
     }

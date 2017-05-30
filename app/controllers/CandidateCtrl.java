@@ -21,7 +21,7 @@ public class CandidateCtrl extends Controller{
 
 
 	public Result addCandidate(){
-		System.out.println("Creating candidate");
+		System.out.println(session().get("username")+ " Creating candidate");
 
 		Form<Interview> addInterviewCandidateForm = Form.form(Interview.class);
 
@@ -41,7 +41,7 @@ public class CandidateCtrl extends Controller{
 		candidate.interview = newInterviewCandidateForm.get();
 		candidate.save();
 
-		System.out.println("Candidate "+candidate.id+" saved");
+		System.out.println(session().get("username")+candidate.id+" saved");
 
 		
 		
@@ -78,8 +78,7 @@ public class CandidateCtrl extends Controller{
 
 		flash("success", "Candidate has been deleted");
 		return redirect("/");
-		}
-		
+	}
 
 	
 
