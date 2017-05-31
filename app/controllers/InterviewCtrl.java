@@ -109,17 +109,9 @@ public class InterviewCtrl extends Controller{
 			
 			QuestionRate c = Ebean.find(QuestionRate.class,interviewForm.get().id);
 			
+	
 			
-			//Add statistics infor to question
-			
-			//increase the repeats
-			c.question.repeats++;
-			
-			//increase the points for the question
-			//this is relative to how many times the question has been asked
-			c.question.points = (c.question.points + c.rate)/c.question.repeats;
-			
-			setDifficulty(c.question);
+			setDifficulty(c);
 			
 			c.question.save();
 			System.out.println(session().get("username")+" saved question "+questionIndex);
@@ -151,25 +143,46 @@ public class InterviewCtrl extends Controller{
 	}
 	
 	//Check if Question difficulty needs to be adjusted
-	public void setDifficulty(Question q){
-		
+	public void setDifficulty(QuestionRate c){
+	
+		//Add statistics infor to question
 		//Category c = category;
-		int maxPoints = (q.category.countQuestions()*5); //multiply by 5 because that is the max points you can get per question
+		//Question q = c.question;
+		int maxPoints = (c.question.category.countQuestions()*5); //multiply by 5 because that is the max points you can get per question
 		
 		//the 1owest 1/3 points are the most difficult in category
 		int levelMarker = (maxPoints/3);
-		if (q.points > maxPoints){
-			q.points = maxPoints;
-			q.isDifficult = false;
+	
+		//increase the repeats
+		c.question.repeats++;
+		
+		//increase the points for the question
+		//this is relative to how many times the question has been asked
+		//c.question.points = (c.question.points + c.rate)/c.question.repeats;
+		
+		if (c.rate == 1 || c.rate == 2){
+			c.question.points = levelMarker - (c.rate/c.question.repeats);
+		}
+		else if (c.rate >=3 && c.rate <=5){
+			c.question.points = levelMarker + (c.rate/c.question.repeats);
+		}else{
+			return;
+		}
+		
+
+		//set difficulty
+		if (c.question.points > maxPoints){
+			c.question.points = maxPoints;
+			c.question.isDifficult = false;
 
 		}		
-		if (q.points > 0 && q.points <= levelMarker ){
+		if (c.question.points > 0 && c.question.points <= levelMarker ){
 			//difficult level questions
-			q.isDifficult = true;
+			c.question.isDifficult = true;
 		}
 
-		if (q.points > levelMarker){
-			q.isDifficult = false;
+		if (c.question.points > levelMarker){
+			c.question.isDifficult = false;
 
 		}
 		
