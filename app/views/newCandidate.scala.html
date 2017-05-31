@@ -7,7 +7,11 @@
 
 	<div class="col-md-8">
 		<h3>Add a new Candidate</h3>
-	
+		  @if(addCandidateForm.hasGlobalErrors) {
+			  <p class="alert alert-warning">
+				  @addCandidateForm.globalError.message
+			  </p>
+			}
 		<!-- Use the views.html.helpers package to create the form -->
 		@helper.form(action = routes.CandidateCtrl.addCandidateSubmit(), 'class -> "form-horizontal", 'role->"form") {
 			

@@ -42,7 +42,7 @@ public class Interviewer extends User {
 	// Check if a user is logged in (by username)
 	public static User getLoggedIn(String username) {
 		if (username == null)
-				return null;
+			return null;
 		else
 			// Find user by username and return object
 			return find.where().eq("username",username).findUnique();
