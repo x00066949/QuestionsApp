@@ -10,6 +10,8 @@ import java.util.*;
 import java.sql.*;
 import javax.persistence.*;
 
+import play.mvc.Http.RequestBuilder;
+
 import com.avaje.ebean.*;
 import com.fasterxml.jackson.databind.JsonNode;
 
@@ -33,13 +35,17 @@ public class ApplicationTest {
 	static Connection connection; */
 	public static FakeApplication app;
 
+	public static Interviewer i1 = new Interviewer(Long.valueOf(0), "Test Interviewer2", "interviewer", "pass");
+	
+
 
 
 	@BeforeClass	
 	public static void startApplication(){
 		System.out.println("Starting unit tests");
 
-		app = Helpers.fakeApplication(Helpers.inMemoryDatabase());
+		//**
+		app = Helpers.fakeApplication(Helpers.inMemoryDatabase("test"));
 		Helpers.start(app);
 		
 		System.out.println("Application Started");
@@ -52,8 +58,12 @@ public class ApplicationTest {
 		Ebean.save(q);
 		Question q1 = new Question(Long.valueOf(3),c,"Another Question");
 		Ebean.save(q1);
+
 		System.out.println("test questions inserted to db");
-		
+		i1.save();
+		System.out.println("test interviewer inserted to db");
+
+
 
 	}
 	
@@ -73,6 +83,7 @@ public class ApplicationTest {
 
 			
 		}
+		i1.delete();
 
         Helpers.stop(app);
 		
@@ -94,7 +105,7 @@ public class ApplicationTest {
 		System.out.println("Testing index page works");
 
 	
-        Content html = views.html.index.render(Category.findAllCategories(),"Index page working.");
+        Content html = views.html.index.render("Index page working.",i1);
         assertEquals("text/html", contentType(html));
 
         assertTrue(contentAsString(html).contains("page"));
@@ -103,14 +114,27 @@ public class ApplicationTest {
 
     }
 	
-	
+	@Test
+	public void testBadRoute() {
+		System.out.println("Testing bad route");
+
+		RequestBuilder request = new RequestBuilder()
+			.method(GET)
+			.uri("/xx");
+
+		Result result = route(request);
+		System.out.println("Status: "+result.status());
+
+		assertEquals(NOT_FOUND, result.status());
+	}
+
  	
 	@Test
 	public void callListQuestions() {
 		System.out.println("Testing List Questions Controller");
 
 
-        Content html = views.html.listQuestions.render(Category.findAllCategories(),"Test Category");
+        Content html = views.html.listQuestions.render(Category.findAllCategories(),"Test Category",i1);
 
 		Set<Category> categories = Category.findAllCategories();
 		assertEquals("text/html", contentType(html));
@@ -133,8 +157,8 @@ public class ApplicationTest {
 		System.out.println("finished test for List Questions controller");
 
 	} 
-	
-/* 	@Test
+/* 	
+	@Test
 	public void testAddCandidate() {
 		System.out.println("Testing AddCandidate controller");
 
@@ -146,6 +170,6 @@ public class ApplicationTest {
 		System.out.println("finished test for List Questions controller");
 
 	
-	}
- */
+	} */
+
 }
