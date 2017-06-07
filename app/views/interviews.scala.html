@@ -6,7 +6,7 @@
 
 @main("Interviews", user) {
 
-
+	
 
 	<div class="row">
 
@@ -54,65 +54,82 @@
 		<div class="col-md-10"> 
 		
 		
-			<h3>Displaying Interviews held on @currentDate for @currentRole positions</h3>
+			<h3>Selected Interviews held on @currentDate for @currentRole positions</h3>
+			@if(flash.containsKey("error")){
+				<div class="alert alert-warning">
+					@flash.get("error")
+				</div>
+			} else{
 
-
-			<table class="table table-bordered table-hover table-condensed" id="tab">
-				<thead>
-				<!-- The header row-->
-					<tr>
-						<th>Candidate</th>
-						<th>Role</th>
-						<th>Number of Questions Asked</th>
-						<th>Interview Date</th>
-						<th>Score</th>
-						<th>Comments</th>
-						
-
-					</tr>
-				</thead>
-				<tbody>
-					<!-- Start of For loop - For each interview found add a row -->
-					@for((i, index) <- interviewList.zipWithIndex) {
-					
-					<tr>						
-						
-						<td>@i.candidate.name</td>
-						<td>@i.role.name</td>
-						<td>@i.numQuestions</td>
-						<td>@i.interviewDate</td>
-						<td>@i.interviewRate</td>
-						<td>
-							@if(index == 0){
-								<button class="comments" onclick="displayLast()">Show Comments</button>
-
-							}else{
-							<button class="comments" onclick="displayModal(@index)">Show Comments</button>
-							}
-							<!-- The Modal -->
-							<div id="myModal" class="modal myModal">
-
-								<!-- Modal content -->
-								<div class="modal-content">
-									<span class="close" id="close">&times;</span>
-								
-									@for(q <- i.questions){
-										<hr>
-										<p>@q.question.question</p>
-										</br>
-										<p>@q.comments</p>
-										
-									}
-								</div>
-							</div>
-						</td>
+				<table class="table table-bordered table-hover table-condensed" id="tab">
+					<thead>
+					<!-- The header row-->
+						<tr>
+							<th>Candidate</th>
+							<th>Role</th>
+							<th>Number of Questions Asked</th>
+							<th>Interview Date</th>
+							<th>Score</th>
+							<th>Comments</th>
+							
 
 						</tr>
+					</thead>
+					<tbody>
+					
+
+						<!-- Start of For loop - For each interview found add a row -->
+						@for((i, index) <- interviewList.zipWithIndex) {
 						
-					}<!-- End of For loop -->
-				</tbody>
-			</table>
-			
+							<tr>						
+								
+								<td>@i.candidate.name</td>
+								<td>@i.role.name</td>
+								<td>@i.numQuestions</td>
+								<td>@i.interviewDate</td>
+								<td>
+									@if(i.interviewRate != null){
+										@i.interviewRate
+									} else{
+										<i>Interview in progress</i>
+
+									}
+								</td>
+								<td>
+									@if(index == 0){
+										<button class="comments" onclick="displayLast()">Show Comments</button>
+
+									}else{
+									<button class="comments" onclick="displayModal(@index)">Show Comments</button>
+									}
+									<!-- The Modal -->
+									<div id="myModal" class="modal myModal">
+
+										<!-- Modal content -->
+										<div class="modal-content">
+											<span class="close" id="close">&times;</span>
+										
+											@for(q <- i.questions){
+												<hr>
+												<p>@q.question.question</p>
+												</br>
+												<p>@q.comments</p>
+												
+											}
+										</div>
+									</div>
+								</td>
+
+							</tr>
+
+							
+						}<!-- End of For loop -->
+
+
+					</tbody>
+
+				</table>
+			}
 			
 		</div>
 	</div>

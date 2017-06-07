@@ -5,10 +5,15 @@
   <h3>Sign in</h3>
 	<!-- Display login errors if they exist -->
 	@if(form.hasGlobalErrors) {
-		  <p class="alert alert-warning">
-		      @form.globalError.message
-		  </p>
+	  <p class="alert alert-warning">
+		@form.globalError.message
+	  </p>
 	}
+	@if(flash.containsKey("success")) {
+		<div class="alert alert-success">
+		    @flash.get("success")
+		</div>
+	} 
 	<!-- The login form -->
 	@helper.form(action = routes.LoginCtrl.authenticate) {
 

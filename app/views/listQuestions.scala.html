@@ -27,7 +27,17 @@
 	<!-- Page Content -->
 
 		<div class="col-xs-12 col-sm-9">
-
+			@if(flash.containsKey("success")) {
+				<div class="alert alert-success">
+					@flash.get("success")
+				</div>
+			}
+			@if(flash.containsKey("error")){
+				<div class="alert alert-warning">
+					@flash.get("error")
+				</div>
+			}
+			
 			<div class="row">
 				@if(current == "all") {
 					@for(c <- categories){

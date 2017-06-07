@@ -14,6 +14,16 @@
 
 			</div>
 			<div class="col-md-7">
+				@if(flash.containsKey("success")) {
+					<div class="alert alert-success">
+						@flash.get("success")
+					</div>
+				}
+				@if(flash.containsKey("error")){
+					<div class="alert alert-warning">
+						@flash.get("error")
+					</div>
+				}
 				<h3>Question @questionIndex out of @interview.numQuestions</h3>
 
 

@@ -1,9 +1,18 @@
 @(categories: List[models.Category], user: models.User)
 
 @main("Graphs", user){
-
-<div id="test-chart"></div>
-<div id="test-legend"></div>
+	@if(flash.containsKey("success")) {
+		<div class="alert alert-success">
+		    @flash.get("success")
+		</div>
+	}
+	@if(flash.containsKey("error")){
+		<div class="alert alert-warning">
+			@flash.get("error")
+		</div>
+	}
+	<div id="test-chart"></div>
+	<div id="test-legend"></div>
 
 }
 <script type="text/javascript">

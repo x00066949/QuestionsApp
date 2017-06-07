@@ -4,8 +4,20 @@
 
 @main("New Candidate", user){
 
+	
 
 	<div class="col-md-8">
+		@if(flash.containsKey("success")) {
+			<div class="alert alert-success">
+				@flash.get("success")
+			</div>
+		}
+		@if(flash.containsKey("error")){
+			<div class="alert alert-warning">
+				@flash.get("error")
+			</div>
+		}
+		
 		<h3>Add a new Candidate</h3>
 		  @if(addCandidateForm.hasGlobalErrors) {
 			  <p class="alert alert-warning">

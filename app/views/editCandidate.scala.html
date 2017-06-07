@@ -4,6 +4,17 @@
 
 @main("Edit Candidate", user) {
 
+		@if(flash.containsKey("success")) {
+		<div class="alert alert-success">
+		    @flash.get("success")
+		</div>
+	}
+	@if(flash.containsKey("error")){
+		<div class="alert alert-warning">
+			@flash.get("error")
+		</div>
+	}
+
 	<div class="row">
 
 

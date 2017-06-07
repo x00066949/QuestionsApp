@@ -98,6 +98,7 @@ public class QuestionCtrl extends Controller{
 
 							mappedQuestions.put(key,value);
 						}else{
+							flash("error", "Some questions in  "+fileName+" have no category defined. They can be viewed in the 'List Questions' tab under 'NO CATEGORY DEFINED' ");
 							mappedQuestions.put("NO CATEGORY DEFINED",value);
 						}
 					}
@@ -150,17 +151,18 @@ public class QuestionCtrl extends Controller{
 					}catch (Exception f){
 						f.printStackTrace();
 					}
-				
+					flash("success", "File "+fileName+" uploaded");
 					return ok(index.render("File uploaded", Interviewer.getLoggedIn(session().get("username"))));
 				} else {
 					System.out.println(session().get("username")+ " wrong File format");
 
+					flash("error", "File "+fileName+" is the wrong format");
 					return badRequest(upload.render(Interviewer.getLoggedIn(session().get("username"))));
 				}
 		}else{
 			System.out.println(session().get("username")+" Missing file");
 
-			//flash("error", "Missing file");
+			flash("error", "Missing file");
 			return badRequest(upload.render(Interviewer.getLoggedIn(session().get("username"))));
 			
 			
@@ -171,7 +173,7 @@ public class QuestionCtrl extends Controller{
 
 
 	// Show a list of all questions
-    public Result listQuestions(String cat) {
+   /*  public Result listQuestions(String cat) {
 			System.out.println(session().get("username")+" List Questions");
 
 			// Get list of categories
@@ -197,11 +199,11 @@ public class QuestionCtrl extends Controller{
 
 			return redirect("/all");
 		  //return (listQuestions.render(categories, questions));
-    }
+    } */
 	
 	public Result getCategories(String catIn){
 		
-		
+
 		return ok(listQuestions.render(Category.findAllCategories(), catIn, Interviewer.getLoggedIn(session().get("username"))));
 
 	}

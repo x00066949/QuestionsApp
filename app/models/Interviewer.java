@@ -17,8 +17,10 @@ import com.avaje.ebean.*;
 @DiscriminatorValue("interviewer")
 public class Interviewer extends User {
 
+	@Constraints.Required
 	public String username;
-	
+
+	@Constraints.Required
 	public String password;
 		
 	public Interviewer(){

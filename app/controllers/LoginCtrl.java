@@ -52,6 +52,7 @@ public class LoginCtrl extends Controller {
 			session("username", loginForm.get().username);
 			System.out.println(loginForm.get().username+" Logged in suceessfully");
 			// Return to home page
+			flash("success", "You've been logged in");
 			return redirect(routes.Application.index());
 		}
 	}	
@@ -76,11 +77,16 @@ public class LoginCtrl extends Controller {
 		Form<Interviewer> newInterviewerForm = Form.form(Interviewer.class).bindFromRequest();
 
 		if (newInterviewerForm.hasErrors()){
+			
+			flash("error","Ensure all fields are filled" );
+
 			return badRequest(register.render(newInterviewerForm, Interviewer.getLoggedIn(session().get("username"))));
 		}
 		if (User.find.where().like("username",newInterviewerForm.get().username).findRowCount() != 0){
+			
 			System.out.println(session().get("username")+"Interviewer " + newInterviewerForm.get().username + " already exists ");
-			flash("success", "Interviewer " + newInterviewerForm.get().username + " already exists ");
+			flash("error", "Interviewer " + newInterviewerForm.get().username + " already exists. Choose a unique username.");
+			
 			return badRequest(register.render(newInterviewerForm, Interviewer.getLoggedIn(session().get("username"))));
 			
 		}
@@ -90,21 +96,19 @@ public class LoginCtrl extends Controller {
 			anInterviewer.username = newInterviewerForm.get().username;
 			anInterviewer.password = Interviewer.encryptPassword(newInterviewerForm.get().password);
 			
-			
-
 			anInterviewer.save();
 
 			System.out.println(session().get("username")+" Interviewer "+newInterviewerForm.get().name+" saved");
 
-		
 			flash("success", "Interviewer " + newInterviewerForm.get() + " has been created");
 		
-
 			return redirect(routes.Application.index());
 		}else {
-			flash( "Password must meet the following requirements: at least 8 characters, 1 uppercaser letter, 1 lowercase letter, 1 number, 1 special character " );
 
 			System.out.println(session().get("username")+" password requirements not met ");
+			
+			flash("error","Password must meet the following requirements: at least 8 characters, 1 uppercaser letter, 1 lowercase letter, 1 number, 1 special character " );
+
 			return badRequest(register.render(newInterviewerForm, Interviewer.getLoggedIn(session().get("username"))));
 		}
        

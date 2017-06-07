@@ -47,7 +47,7 @@ public class CandidateCtrl extends Controller{
 		
 		newInterviewCandidateForm.get().save();
 		
-		flash("success", "Candidate " + newInterviewCandidateForm.get() + " has been created");
+		//flash("success", "Candidate " + newInterviewCandidateForm.get() + " has been created");
 	
 
 		return redirect(routes.InterviewCtrl.getRandomQuestions(newInterviewCandidateForm.get().id));
@@ -55,7 +55,7 @@ public class CandidateCtrl extends Controller{
 	
 	public Result deleteCandidate(Long id) {
 		
-		//Delete interview associated with candidate
+		//find interview associated with candidate
 		Interview intDelete = Interview.find
 		.where()
 		.eq("candidate_id",id)
@@ -72,11 +72,13 @@ public class CandidateCtrl extends Controller{
 		
 		//delete the interview instance for the candidate before deleteing candidate
 		intDelete.delete();
+		flash("success", "Cancelled interview id: "+intDelete.id);
+
 		
 		//then delete candidate
 		User.find.ref(id).delete();
 
-		flash("success", "Candidate has been deleted");
+		//flash("success", "Candidate has been deleted");
 		return redirect("/");
 	}
 

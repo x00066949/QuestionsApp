@@ -77,18 +77,26 @@ public class InterviewCtrl extends Controller{
 				
 				System.out.println(session().get("username")+" Displaying first Question");
 
+				flash("success","Candidate "+interview.candidate.name+" saved successfully" );
+
+
 				return ok(candidateQuestions.render(editQuestionRateForm, interview.questions.get(questionIndex),interview, questionIndex+1, Interviewer.getLoggedIn(session().get("username"))));
 			}else {
 				Ebean.delete(interview);
-				return badRequest(index.render("Error: You have requested "+interview.numQuestions
-									+" questions, please try again, making sure to pick a number between 1 and  "+qList.size()+" for the role of  "+interview.role.name, Interviewer.getLoggedIn(session().get("username"))));
+				Ebean.delete(interview.candidate);
+
+
+				flash("error","You have requested "+interview.numQuestions+" questions, please try again, making sure to pick a number between 1 and  "+qList.size()+" for the role of  "+interview.role.name );
+
+				return redirect(routes.CandidateCtrl.addCandidate());
+
 
 			}
 
 
 		}
 		else{
-			flash("Error interview does not exist");
+			flash("error","Interview does not exist");
             return badRequest(index.render("Error: interview does not exist", Interviewer.getLoggedIn(session().get("username"))));
 		}
 	}
@@ -123,6 +131,10 @@ public class InterviewCtrl extends Controller{
 			
 			
 			questionIndex++;
+		}else{
+
+			flash("error","Please select a rate for this question");
+
 		}
 		if(questionIndex < interview.numQuestions){
 			
@@ -136,8 +148,11 @@ public class InterviewCtrl extends Controller{
 			interview.save();
 			
 			System.out.println(session().get("username")+" Interview saved");
+			
+			flash("success"," Interview completed");
 
-			return ok(index.render("Interview Completed, "+interview.candidate.name+"'s score is "+interview.interviewRate.toString(), Interviewer.getLoggedIn(session().get("username"))));
+
+			return ok(index.render(interview.candidate.name+"'s score for the "+interview.role.name+ " role is "+interview.interviewRate.toString(), Interviewer.getLoggedIn(session().get("username"))));
 		} 
 		
 	}
@@ -251,7 +266,10 @@ public class InterviewCtrl extends Controller{
 			date = "all dates";
 		}
 		
-		
+		if (interviewList.isEmpty()){
+			flash("error","No interviews to display");
+
+		}
 		
 		return ok(interviews.render(Category.findAllCategories(), interviewList, dates,date,role, Interviewer.getLoggedIn(session().get("username"))));
 	}
