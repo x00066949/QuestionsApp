@@ -51,4 +51,7 @@ java:What questions do you have for me?
 a category:and a corresponding questions
 another category: another questions
 another category:the last
-:a question
+wrong category:part of : a question
+:another category
+:and question
+ :more

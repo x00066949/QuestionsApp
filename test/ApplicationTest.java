@@ -11,6 +11,8 @@ import java.sql.*;
 import javax.persistence.*;
 
 import play.mvc.Http.RequestBuilder;
+import play.mvc.Http;
+import static org.mockito.Mockito.*;
 
 import com.avaje.ebean.*;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -26,14 +28,15 @@ import views.html.*;
 
 /**
 *
-* Simple (JUnit) tests that can call all parts of a play app.
-* If you are interested in mocking a whole application, see the wiki for more details.
+* Simple (JUnit) tests that can call parts of a play app.
+* 
 *
 */
 public class ApplicationTest {
 /* 	static Database database;
 	static Connection connection; */
 	public static FakeApplication app;
+    private final Http.Request request = mock(Http.Request.class);
 
 	public static Interviewer i1 = new Interviewer(Long.valueOf(0), "Test Interviewer2", "interviewer", "pass");
 	
@@ -45,7 +48,7 @@ public class ApplicationTest {
 		System.out.println("Starting unit tests");
 
 		//**
-		app = Helpers.fakeApplication(Helpers.inMemoryDatabase("test"));
+		app = Helpers.fakeApplication(Helpers.inMemoryDatabase());
 		Helpers.start(app);
 		
 		System.out.println("Application Started");
@@ -63,9 +66,21 @@ public class ApplicationTest {
 		i1.save();
 		System.out.println("test interviewer inserted to db");
 
-
-
 	}
+	
+	//http context
+	@Before
+    public void setUp() throws Exception {	
+		System.out.println("Setting up http context");
+		
+		Map<String, String> flashData = Collections.emptyMap();
+		Map<String, Object> argData = Collections.emptyMap();
+		Long id = 2L;
+		play.api.mvc.RequestHeader header = mock(play.api.mvc.RequestHeader.class);
+		Http.Context context = new Http.Context(id, header, request, flashData, flashData, argData);
+		Http.Context.current.set(context);
+	}
+	
 	
 	@AfterClass
 	public static void shutdownDatabase() {
@@ -118,14 +133,28 @@ public class ApplicationTest {
 	public void testBadRoute() {
 		System.out.println("Testing bad route");
 
-		RequestBuilder request = new RequestBuilder()
+		RequestBuilder request1 = new RequestBuilder()
 			.method(GET)
 			.uri("/xx");
 
-		Result result = route(request);
+		Result result = route(request1);
 		System.out.println("Status: "+result.status());
 
 		assertEquals(NOT_FOUND, result.status());
+	}
+	
+	@Test
+	public void testWorkingRoutes() {
+		System.out.println("Testing bad route");
+
+		RequestBuilder request2 = new RequestBuilder()
+			.method(GET)
+			.uri("/");
+
+		Result result = route(request2);
+		System.out.println("Status: "+result.status());
+
+		assertEquals(ACCEPTED, result.status());
 	}
 
  	
